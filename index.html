@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Groww New-User Value Analysis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Schibsted+Grotesk:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: an analyst's report in landscape pages — a quiet cool-grey desk, white pages,
+   one deep-blue accent for "the answer", orange reserved for risk/lapsed, dense tables with charts built into them. */
+:root{
+  --bg:#eef0f3; --surface:#ffffff; --surface-2:#f6f7f9; --line:#e2e5ea; --line-2:#cdd2da;
+  --ink:#0f1a2b; --ink-2:#435066; --muted:#6b7689;
+  --accent:#1c5cab; --accent-soft:#e7effa; --accent-ink:#123f78;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --neutral:#c3c9d3;
+  --risk-soft:#fdeee6; --good-soft:#e3f5ee;
+  --cover:#0f2340; --cover-ink:#f2f5fa; --cover-muted:#9fb0c8; --cover-line:#24406a;
+  --display:"Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0b0f15; --surface:#141a23; --surface-2:#1a212c; --line:#253041; --line-2:#334156;
+    --ink:#e8edf4; --ink-2:#b4bfcf; --muted:#8693a7;
+    --accent:#6aa3ee; --accent-soft:#16263d; --accent-ink:#a9c9f5;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --neutral:#475468;
+    --risk-soft:#221a17; --good-soft:#12302a;
+    --cover:#0a1830; --cover-ink:#eef2f8; --cover-muted:#8ea2bf; --cover-line:#1f3a62;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0b0f15; --surface:#141a23; --surface-2:#1a212c; --line:#253041; --line-2:#334156;
+  --ink:#e8edf4; --ink-2:#b4bfcf; --muted:#8693a7;
+  --accent:#6aa3ee; --accent-soft:#16263d; --accent-ink:#a9c9f5;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --neutral:#475468;
+  --risk-soft:#221a17; --good-soft:#12302a;
+  --cover:#0a1830; --cover-ink:#eef2f8; --cover-muted:#8ea2bf; --cover-line:#1f3a62;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav-in{max-width:1280px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-weight:800;font-size:14px;letter-spacing:-.01em;color:var(--ink);text-decoration:none}
+.brand span{color:var(--muted);font-weight:600}
+.nav-links{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+.nav-links a{font-family:var(--mono);font-size:11px;text-decoration:none;color:var(--ink-2);padding:5px 9px;border-radius:6px;border:1px solid transparent}
+.nav-links a:hover{background:var(--surface);border-color:var(--line)}
+.nav-links a.on{background:var(--accent);color:#fff}
+
+.deck{max-width:1280px;margin:0 auto;padding:8px 20px 60px;display:flex;flex-direction:column;gap:26px}
+.page{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:30px 40px 22px;display:flex;flex-direction:column;gap:16px;scroll-margin-top:64px;box-shadow:0 1px 2px rgba(15,26,43,.04)}
+.ph{display:flex;justify-content:space-between;align-items:center;gap:12px;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.ph .q{display:flex;align-items:center;gap:8px}
+.ph .q b{background:var(--accent);color:#fff;padding:2px 7px;border-radius:4px;font-weight:600;letter-spacing:.04em}
+.ph .pn{font-variant-numeric:tabular-nums}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-.015em}
+h2{font-size:27px;line-height:1.15;font-weight:800;max-width:52ch}
+.page > header{display:flex;flex-direction:column;gap:6px}
+.lede{color:var(--ink-2);font-size:13.5px;max-width:110ch;margin:0}
+h3{font-size:14.5px;font-weight:700;line-height:1.25}
+.k{font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+p{margin:0}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:1.15fr 1fr}
+.g2e{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.g21{grid-template-columns:2fr 1fr}
+.g12{grid-template-columns:1fr 1.6fr}
+@media (max-width:980px){.g2,.g2e,.g3,.g4,.g21,.g12{grid-template-columns:1fr}.page{padding:22px 18px}}
+.card{border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:var(--surface-2);display:flex;flex-direction:column;gap:8px;min-width:0}
+.card.answer{background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 35%,var(--line))}
+.card.risk{background:var(--risk-soft);border-color:color-mix(in srgb,var(--s2) 30%,var(--line))}
+.card.plain{background:var(--surface)}
+ul.tight{margin:0;padding-left:16px;display:flex;flex-direction:column;gap:4px}
+ul.tight li::marker{color:var(--muted)}
+ol.steps{margin:0;padding:0;list-style:none;counter-reset:s;display:flex;flex-direction:column;gap:7px}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:start}
+ol.steps li::before{content:counter(s);font-family:var(--mono);font-size:10.5px;font-weight:600;color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 40%,var(--line));border-radius:50%;width:20px;height:20px;display:grid;place-items:center;background:var(--surface)}
+.num{font-variant-numeric:tabular-nums}
+.big{font-family:var(--display);font-weight:800;font-size:30px;line-height:1;letter-spacing:-.02em}
+.big small{font-size:13px;font-weight:600;color:var(--muted);letter-spacing:0;margin-left:3px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.stat{border-left:2px solid var(--accent);padding:2px 0 2px 10px;display:flex;flex-direction:column;gap:3px}
+.stat .l{font-size:11.5px;color:var(--ink-2);line-height:1.3}
+@media (max-width:980px){.stats{grid-template-columns:repeat(2,1fr)}}
+.muted{color:var(--muted)}
+.ink2{color:var(--ink-2)}
+.small{font-size:11.5px}
+.xs{font-size:10.5px}
+mark{background:none;color:var(--accent-ink);font-weight:600}
+.risk-t{color:var(--s2);font-weight:600}
+.foot{margin-top:auto;padding-top:10px;border-top:1px solid var(--line);font-size:10.5px;color:var(--muted);display:flex;flex-direction:column;gap:3px}
+.foot a{color:var(--muted)}
+
+/* tables */
+.tw{overflow-x:auto;min-width:0}
+table.t{border-collapse:collapse;width:100%;font-size:11.8px;font-variant-numeric:tabular-nums}
+table.t th{font-family:var(--mono);font-size:9.8px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);text-align:left;padding:6px 8px;border-bottom:1px solid var(--line-2);vertical-align:bottom;white-space:normal;min-width:64px}
+table.t td{padding:5px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+table.t td.r,table.t th.r{text-align:right}
+table.t tr.hl td{background:var(--accent-soft)}
+table.t tr.hl td:first-child{box-shadow:inset 3px 0 0 var(--accent)}
+table.t tr.rk td{background:var(--risk-soft)}
+table.t tr.rk td:first-child{box-shadow:inset 3px 0 0 var(--s2)}
+table.t tr.sep td{border-top:1px solid var(--line-2)}
+table.t td.lbl{color:var(--ink-2)}
+table.t.wrapcells th{white-space:normal}
+table.t.alt td:nth-child(2){min-width:240px}
+table.t.alt td:last-child{min-width:230px}
+table.t.alt td:first-child{white-space:nowrap}
+table.t.alt td.r{white-space:nowrap}
+table.t.hv4{table-layout:fixed}
+table.t.hv4 td.c2{text-align:center}
+table.t.hv4 td.r{white-space:nowrap}
+table.t tr.grp th{border-bottom:0;padding-bottom:0}
+table.t tr.grp th.g{text-align:center;color:var(--ink-2);border-bottom:2px solid var(--accent);padding-bottom:5px}
+table.t tr.grp th.g + th.g{border-left:8px solid var(--surface)}
+
+/* chips */
+.chip{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9.8px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:999px;border:1px solid var(--line-2);color:var(--ink-2);white-space:nowrap;background:var(--surface)}
+.chip::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--neutral)}
+.chip.more::before{background:var(--s3)} .chip.more{border-color:color-mix(in srgb,var(--s3) 55%,var(--line))}
+.chip.grad::before{background:var(--s1)} .chip.grad{border-color:color-mix(in srgb,var(--s1) 55%,var(--line))}
+.chip.hold::before{background:var(--muted)}
+.chip.unc::before{background:transparent;border:1.5px solid var(--muted);width:5px;height:5px}
+.chip.less::before{background:var(--s2)} .chip.less{border-color:color-mix(in srgb,var(--s2) 55%,var(--line))}
+.chip.base::before{background:var(--line-2)}
+
+/* inline bars */
+.bar{position:relative;height:12px;min-width:90px;flex:1}
+table.t td:has(> .bar){display:flex;align-items:center;gap:8px}
+table.t td:has(> .bar) > .num{min-width:38px;text-align:right}
+.bar .f{position:absolute;left:0;top:2px;height:8px;border-radius:0 4px 4px 0;background:var(--s1)}
+.bar .f.alt{background:var(--s2)}
+.bar .f.mut{background:var(--neutral)}
+.cb{position:relative;min-width:230px;padding-right:46px}
+.cb-track{position:relative;height:14px}
+.cb-track .f{position:absolute;left:0;top:3px;height:8px;border-radius:0 4px 4px 0;background:var(--s1)}
+.cb-track .dot{position:absolute;top:1px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--s2);box-shadow:0 0 0 2px var(--surface)}
+.cb-v{position:absolute;top:-1px;margin-left:6px;font-size:11.5px;font-weight:600;color:var(--ink);white-space:nowrap}
+.cb-dl{position:relative;height:13px;margin-top:2px}
+.cb-dl span{position:absolute;top:0;font-size:10.5px;color:var(--ink-2);white-space:nowrap}
+.bar .dot{position:absolute;top:0;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--s2);box-shadow:0 0 0 2px var(--surface)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--ink-2);align-items:center}
+.legend i{display:inline-block;vertical-align:middle;margin-right:5px}
+.legend .sw{width:14px;height:8px;border-radius:0 3px 3px 0;background:var(--s1)}
+.legend .sw.o{background:var(--s2)} .legend .sw.n{background:var(--neutral)}
+.legend .dt{width:10px;height:10px;border-radius:50%;background:var(--s2)}
+
+/* segmented bar */
+.seg{display:flex;gap:2px;height:28px;border-radius:4px;overflow:visible}
+.seg > div{border-radius:4px;display:flex;align-items:center;padding:0 8px;font-size:11px;font-weight:600;color:#fff;white-space:nowrap;min-width:0}
+.seg .a{background:var(--s1)} .seg .b{background:var(--s2)} .seg .c{background:var(--s3)} .seg .d{background:var(--neutral);color:var(--ink)}
+
+/* svg charts */
+.chart svg{width:100%;height:auto;display:block;overflow:visible}
+.chart .grid line{stroke:var(--line);stroke-width:1}
+.chart text{fill:var(--muted);font-family:var(--mono);font-size:10px}
+.chart text.lab{fill:var(--ink);font-family:var(--body);font-size:11px;font-weight:600}
+.chart text.lab2{fill:var(--ink-2);font-family:var(--body);font-size:10.5px}
+[data-tip]{cursor:default}
+.i{display:inline-grid;place-items:center;width:13px;height:13px;margin-left:4px;border-radius:50%;border:1px solid var(--line-2);font-family:var(--body);font-size:8.5px;font-weight:700;font-style:normal;text-transform:none;letter-spacing:0;color:var(--muted);vertical-align:1px;cursor:help;background:var(--surface)}
+.i:hover,.i:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+table.t th{line-height:1.35}
+.tip{position:fixed;z-index:50;pointer-events:none;background:var(--ink);color:var(--surface);font-size:11.5px;line-height:1.4;padding:7px 9px;border-radius:6px;max-width:260px;opacity:0;transform:translateY(4px);transition:opacity .12s, transform .12s}
+.tip.on{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){.tip{transition:none}}
+
+/* covers */
+.cover{background:var(--cover);color:var(--cover-ink);border-color:var(--cover);padding:44px 52px 30px;gap:22px;min-height:520px}
+.cover .ph{color:var(--cover-muted)}
+.cover .ph .q b{background:var(--cover-ink);color:var(--cover)}
+.cover h1{font-size:46px;font-weight:900;line-height:1.02;max-width:20ch;letter-spacing:-.03em}
+.cover .qn{font-family:var(--display);font-weight:900;font-size:120px;line-height:.85;letter-spacing:-.05em;color:var(--cover-ink)}
+.cover .qtext{font-size:19px;line-height:1.45;max-width:62ch;color:var(--cover-ink)}
+.cover .qtext strong{font-weight:600}
+.cover .k{color:var(--cover-muted)}
+.cover .cl{border-top:1px solid var(--cover-line);padding-top:16px;display:grid;grid-template-columns:1.2fr 1fr;gap:28px}
+.cover ul.tight li::marker{color:var(--cover-muted)}
+.cover .ans{font-size:14.5px;line-height:1.5;color:var(--cover-ink)}
+.cover .foot{border-color:var(--cover-line);color:var(--cover-muted)}
+.cover .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--cover-line);border-bottom:1px solid var(--cover-line)}
+.cover .tiles > div{padding:14px 16px;border-right:1px solid var(--cover-line);display:flex;flex-direction:column;gap:4px}
+.cover .tiles > div:last-child{border-right:0}
+.cover .tiles .big{color:var(--cover-ink)}
+.cover .tiles .l{color:var(--cover-muted);font-size:12px}
+.cover .toc{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.cover .toc a{color:var(--cover-ink);text-decoration:none;border:1px solid var(--cover-line);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:3px}
+.cover .toc a:hover{background:rgba(255,255,255,.05)}
+.cover .toc span{font-family:var(--mono);font-size:10px;color:var(--cover-muted);letter-spacing:.05em;text-transform:uppercase}
+@media (max-width:980px){.cover{padding:28px 20px}.cover h1{font-size:32px}.cover .qn{font-size:76px}.cover .cl,.cover .tiles,.cover .toc{grid-template-columns:1fr 1fr}}
+.cover:not(#cover){min-height:440px}
+.cover:not(#cover) .qgrid{margin:auto 0}
+.qgrid{display:grid;grid-template-columns:auto 1fr;gap:34px;align-items:start}
+@media (max-width:980px){.qgrid{grid-template-columns:1fr;gap:12px}}
+
+@page{size:1320px 1600px;margin:0}
+@media print{
+  .nav,.tip{display:none} body{background:#fff}
+  .page{break-after:page;break-inside:avoid;box-shadow:none;border:0;border-radius:0;margin:0}
+  .deck{gap:0;padding:0;max-width:none}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+.gap-row{display:grid;grid-template-columns:190px 1fr 84px;gap:10px;align-items:center;font-size:11.5px;padding:5px 0;border-bottom:1px solid var(--line)}
+.gap-track{position:relative;height:12px;background:var(--surface-2);border-radius:3px}
+.gap-track .g{position:absolute;top:2px;height:8px;border-radius:0 4px 4px 0;background:var(--s1)}
+.gap-track .g.full{background:var(--neutral)}
+.gap-track .g.rng{border-radius:4px}
+.gap-row .v{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.subsec{border-top:2px solid var(--line-2);padding-top:14px;display:flex;flex-direction:column;gap:12px}
+.subsec-h{display:flex;align-items:baseline;gap:12px}
+</style>
+</head>
+<body>
+<nav class="nav" aria-label="Sections">
+  <div class="nav-in">
+    <a class="brand" href="#cover">New-user value at Groww <span>· BA / SBA assignment</span></a>
+    <div class="nav-links">
+      <a href="#summary">Summary</a><a href="#q1">Q1 High value</a><a href="#q2">Q2 Watchlist</a><a href="#q3">Q3 Channels</a><a href="#q4">Q4 Concentration</a>
+    </div>
+  </div>
+</nav>
+<div class="tip" id="tip" role="tooltip"></div>
+
+<main class="deck">
+
+<!-- ================= TITLE COVER ================= -->
+<section class="page cover" id="cover" aria-label="Title cover">
+  <div class="ph"><span class="q">Cover · not counted</span><span>13 Nov 2026</span></div>
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <p class="k" style="font-size:11px">Groww Business Analyst / Senior Business Analyst hiring assignment</p>
+    <h1>Who to keep, who to watch, where to spend, and what to build next</h1>
+    <p class="qtext" style="font-size:16px;color:var(--cover-muted)">An analysis of every user who signed up between April and September 2026 and every order they placed until 31 October 2026, across stocks, F&amp;O, commodities, mutual funds and IPOs. Prepared by Utkarsh Kere.</p>
+  </div>
+  <div class="toc">
+    <a href="#summary"><span>Page 1</span>Summary of answers</a>
+    <a href="#q1"><span>Pages 2–4</span>Q1 · Who is high value</a>
+    <a href="#q2"><span>Pages 5–6</span>Q2 · The weekly watchlist</a>
+    <a href="#q3"><span>Pages 7–8</span>Q3 · Marketing channels</a>
+    <a href="#q4"><span>Pages 9–10</span>Q4 · Concentration &amp; next bet</a>
+  </div>
+  <div class="foot">
+    <span>10 content pages. Cover pages (this one and one per question) carry only the question and are not counted.</span>
+    <span>AI use: analysis done with Claude, with a separate Claude QC agent that recomputed every number from the raw files with its own code. Full prompt history is submitted with this deck.</span>
+  </div>
+</section>
+
+<!-- ================= PAGE 1: SUMMARY ================= -->
+<section class="page" id="summary" aria-label="Page 1 summary">
+  <div class="ph"><span class="q"><b>Summary</b> The four answers on one page</span><span class="pn">Page 1 / 10</span></div>
+  <header>
+    <h2>A tiny group of active traders carries the business. Keep them, spot them early, bring more of them, and widen the base beyond F&amp;O.</h2>
+    <p class="lede">Each card gives the answer, the evidence behind it and what to do. Revenue throughout is the brokerage Groww earns on successful orders; statutory and exchange charges are excluded because they pass through to the exchange and government.</p>
+  </header>
+  <div class="grid g2e">
+    <div class="card answer">
+      <p class="k">Q1 · Who is worth focusing on</p>
+      <h3>High value = the top 1% of new users by revenue in their first 90 days, who are still trading in month 3.</h3>
+      <div class="stats" style="grid-template-columns:repeat(3,1fr)">
+        <div class="stat"><span class="big num">94</span><span class="l">users, 0.74% of the 12,734 signups with a full 90 days</span></div>
+        <div class="stat"><span class="big num">69.5%</span><span class="l">of all 90-day revenue</span></div>
+        <div class="stat"><span class="big num">≈94×</span><span class="l">the revenue of an average signup over the first 90 days (₹5,665 vs ₹60 per user)</span></div>
+      </div>
+      <p class="small ink2"><b>Act on three differences:</b> they trade often and steadily (290 orders on 28 trading days in 90 days), they use more products including margin (13% use MTF vs 3%), and their trading intensity is also the main risk sign. Retention should mean better tools and risk controls, not pushing more trades: the typical high-value F&amp;O trader loses ₹3.5 for every ₹1 of brokerage.</p>
+    </div>
+    <div class="card answer">
+      <p class="k">Q2 · The weekly watchlist</p>
+      <h3>Score every new signup on day 7 with a 10-signal points card and give personal attention to the top 20.</h3>
+      <div class="stats" style="grid-template-columns:repeat(3,1fr)">
+        <div class="stat"><span class="big num">≈3<small>of 20</small></span><span class="l">picks a week become high value, vs ~5 if we predicted every high-value user correctly</span></div>
+        <div class="stat"><span class="big num">55%</span><span class="l">of what a perfect list could catch (52 of 94 over 18 weeks)</span></div>
+        <div class="stat"><span class="big num">₹1,247</span><span class="l">revenue per pick over the first 90 days vs ₹60 per average signup (≈21×)</span></div>
+      </div>
+      <p class="small ink2"><b>How to use it:</b> it does about as well as simply ranking by week-1 revenue, but the team can see why each user was picked. When ranked by week-1 revenue, 46 of 50 hits sit in the top 10 slots. The highest scorers include future lapsers too, so the list doubles as a retention-risk list.</p>
+    </div>
+    <div class="card answer">
+      <p class="k">Q3 · Where the next marketing rupee goes</p>
+      <h3>Grow Apple Search Ads in capped monthly steps, and HT, Zee and Referral gradually; cut NDTV, Times Internet and app-install networks.</h3>
+      <div class="stats" style="grid-template-columns:repeat(3,1fr)">
+        <div class="stat"><span class="big num">₹384</span><span class="l">per Apple Search Ads signup: its 141 signups earned ₹54k in their first 90 days (Organic: ₹52)</span></div>
+        <div class="stat"><span class="big num">23%</span><span class="l">of Apple Search Ads signups earn Groww something in their first 30 days vs 10% Organic, higher in every signup month</span></div>
+        <div class="stat"><span class="big num">₹10</span><span class="l">per signup from NDTV and app-install networks</span></div>
+      </div>
+      <p class="small ink2"><b>Limit:</b> there is no spend or cost-per-signup data, so these figures are the most a channel can cost and still break even on 90-day revenue, not return on spend. Most channel averages are driven by one or two users, so every figure was checked with the top user removed.</p>
+    </div>
+    <div class="card answer">
+      <p class="k">Q4 · Concentration and the next bet</p>
+      <h3>About 84% of revenue rests on retail F&amp;O traders. A 30% F&amp;O drop costs 21–25% of revenue. The next bet is stock trading.</h3>
+      <div class="stats" style="grid-template-columns:repeat(3,1fr)">
+        <div class="stat"><span class="big num">70.7%</span><span class="l">of revenue is F&amp;O brokerage; 93% of it from index options</span></div>
+        <div class="stat"><span class="big num">25%</span><span class="l">of revenue from just the top 10 users</span></div>
+        <div class="stat"><span class="big num">16<small>of 82</small></span><span class="l">users who stopped F&amp;O earned Groww anything afterwards</span></div>
+      </div>
+      <p class="small ink2"><b>Two-part bet:</b> grow stock trading among users who don't trade F&amp;O (₹2.0L from 1,701 users, widely spread), with MTF as the upsell; and move F&amp;O traders into stocks while they are still active. Commodities are not a hedge: 95% of that revenue comes from the same F&amp;O traders.</p>
+    </div>
+  </div>
+  <div class="card plain">
+    <p class="k">How the numbers were built</p>
+    <div class="grid g4 small ink2" style="gap:14px">
+      <p><b class="num">Revenue rules.</b> F&amp;O and commodities ₹20 per executed order; stocks the recorded brokerage per successful order; mutual funds ₹2 per completed order (redemptions included); IPOs ₹1 per successful application.</p>
+      <p><b>Missing stock fees.</b> 7,880 successful stock orders (29%), almost all in Sep–Oct, have a blank fee. We filled them with Groww's published pricing rule, which reproduces 99.9% of recorded fees. Filled fees are ₹1.01L: 34% of stock revenue, 6.9% of total.</p>
+      <p><b>Fair windows.</b> Anything measured "by day 90" uses only the 12,734 users who signed up by 2 Aug 2026 and so have a full 90 days of data. Day counts run from the signup timestamp. Per-user comparisons on this page are all over the same first 90 days: an average signup brings ₹60 (₹20 a month).</p>
+      <p><b>Independent QC.</b> A separate agent recomputed every number from the raw CSVs with its own code and challenged the method. It changed several conclusions; corrected versions are the ones shown.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= Q1 COVER ================= -->
+<section class="page cover" id="q1" aria-label="Question 1 cover">
+  <div class="ph"><span class="q"><b>Question 1</b> Cover · not counted</span><span></span></div>
+  <div class="qgrid">
+    <div class="qn">Q1</div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <p class="k">Who is worth focusing on?</p>
+      <p class="qtext">The team can only focus its retention efforts on a small slice of users. Make the case for which slice. Define what “high value” means for Groww (there is no single right answer, but wrong answers exist), then show, with evidence, how high-value users differ from the rest. End with the 2–3 differences strong enough to act on.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PAGE 2: Q1a ================= -->
+<section class="page" aria-label="Page 2">
+  <div class="ph"><span class="q"><b>Q1</b> Who is worth focusing on · The definition</span><span class="pn">Page 2 / 10</span></div>
+  <header>
+    <h2>Fewer than 1 in 100 new users bring 90% of 90-day revenue, so “high value” has to be defined by revenue</h2>
+    <p class="lede">We took every user with a full 90 days of history (signed up by 2 Aug 2026, 12,734 users), added up the revenue each brought Groww in their first 90 days, and ranked them. Only 13.1% earned Groww anything at all; the rest are ₹0.</p>
+  </header>
+  <div class="grid g2">
+    <div class="card plain">
+      <p class="k">Cumulative share of 90-day revenue, users ranked from highest to lowest</p>
+      <div class="chart" id="pareto" role="img" aria-label="Pareto curve: the top 0.19% of signups bring 50% of 90-day revenue, the top 1% bring 90%, the curve reaches 100% at about 13% of signups"></div>
+      <div class="tw">
+      <table class="t wrapcells">
+        <thead><tr><th>Revenue share reached<span class="i" tabindex="0" role="img" aria-label="Definition: Cumulative share of all 90-day revenue, adding users from the highest earner down." data-tip="Cumulative share of all 90-day revenue, adding users from the highest earner down.">i</span></th><th class="r">Users it takes<span class="i" tabindex="0" role="img" aria-label="Definition: Number of top-ranked users whose 90-day revenue adds up to that share." data-tip="Number of top-ranked users whose 90-day revenue adds up to that share.">i</span></th><th class="r">As % of all signups<span class="i" tabindex="0" role="img" aria-label="Definition: Those users as a share of the 12,734 signups with a full 90 days of data." data-tip="Those users as a share of the 12,734 signups with a full 90 days of data.">i</span></th><th class="r">Lowest earner in the group<span class="i" tabindex="0" role="img" aria-label="Definition: 90-day revenue of the last (smallest) user needed to reach that share." data-tip="90-day revenue of the last (smallest) user needed to reach that share.">i</span></th></tr></thead>
+        <tbody>
+          <tr><td>50%</td><td class="r">24</td><td class="r">0.19%</td><td class="r">₹9,110</td></tr>
+          <tr><td>80%</td><td class="r">71</td><td class="r">0.56%</td><td class="r">₹2,501</td></tr>
+          <tr class="hl"><td>90% (top 1%)</td><td class="r">127–128</td><td class="r">1.0%</td><td class="r">≈ ₹730</td></tr>
+          <tr><td>95%</td><td class="r">229</td><td class="r">1.80%</td><td class="r">₹192</td></tr>
+          <tr><td>99%</td><td class="r">729</td><td class="r">5.72%</td><td class="r">₹22</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="card answer">
+        <p class="k">Our definition, in two steps</p>
+        <ol class="steps small">
+          <li><span><b>Rank by revenue in the first 90 days after signup</b> and take the top 1%: <b class="num">127 users</b>, each with at least <b class="num">≈ ₹730</b>, together <b class="num">90.0%</b> of 90-day revenue. Almost all of it (99.96%) comes from F&amp;O, stocks and commodities.</span></li>
+          <li><span><b>Keep only those still earning in month 3</b> (at least one revenue order in days 60–89 after signup). That leaves <b class="num">94 high-value users</b> (0.74% of signups) holding <b class="num">69.5%</b> of revenue. The other 33 are <span class="risk-t">lapsed top earners</span> (20.5% of revenue).</span></li>
+        </ol>
+      </div>
+      <div class="card">
+        <p class="k">Why step 2 matters: it separates who stays from who is already leaving</p>
+        <div class="tw">
+        <table class="t">
+          <thead><tr><th>Top-1% group<span class="i" tabindex="0" role="img" aria-label="Definition: The 127 users in the top 1% by 90-day revenue, split by whether they placed a revenue-earning order in days 60–89." data-tip="The 127 users in the top 1% by 90-day revenue, split by whether they placed a revenue-earning order in days 60–89.">i</span></th><th class="r">Users</th><th class="r">Share of all 90-day revenue<span class="i" tabindex="0" role="img" aria-label="Definition: Group&#x27;s revenue in each user&#x27;s first 90 days ÷ the same for all 12,734 signups." data-tip="Group&#x27;s revenue in each user&#x27;s first 90 days ÷ the same for all 12,734 signups.">i</span></th><th class="r">Earned anything after day 90<span class="i" tabindex="0" role="img" aria-label="Definition: Share with any revenue from day 90 to 31 Oct. Windows differ by signup date." data-tip="Share with any revenue from day 90 to 31 Oct. Windows differ by signup date.">i</span></th><th class="r">Earned in the next month (days 90–120)<span class="i" tabindex="0" role="img" aria-label="Definition: Share with any revenue in days 90–119, counting only users with at least 30 days of data after day 90." data-tip="Share with any revenue in days 90–119, counting only users with at least 30 days of data after day 90.">i</span></th></tr></thead>
+          <tbody>
+            <tr class="hl"><td>High value (active in month 3)</td><td class="r">94</td><td class="r">69.5%</td><td class="r">80%</td><td class="r">77.6%</td></tr>
+            <tr class="rk"><td>Lapsed top earners</td><td class="r">33</td><td class="r">20.5%</td><td class="r">24%</td><td class="r">18.5%</td></tr>
+          </tbody>
+        </table>
+        </div>
+        <p class="small ink2">A user who earned a lot early but placed no order in month 3 is unlikely to come back: retention effort on the 94 protects revenue that is still there. The 33 lapsed are worth a low-cost automated win-back, not personal attention.</p>
+      </div>
+      <div class="card">
+        <p class="k">What the 94 trade</p>
+        <div class="seg" role="img" aria-label="High-value revenue mix: F&amp;O 72%, stocks 19%, commodities 9%">
+          <div class="a" style="flex:72" data-tip="F&amp;O: 72% of high-value users' 90-day revenue">F&amp;O 72%</div>
+          <div class="b" style="flex:19" data-tip="Stocks: 19% of high-value users' 90-day revenue">Stocks 19%</div>
+          <div class="c" style="flex:9" data-tip="Commodities: 9% of high-value users' 90-day revenue">9%</div>
+        </div>
+        <div class="legend"><span><i class="sw"></i>F&amp;O</span><span><i class="sw o"></i>Stocks</span><span><i class="sw" style="background:var(--s3)"></i>Commodities</span><span class="muted">Main product per user: F&amp;O 63 · stocks 27 · commodities 4</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot">
+    <span>Cohort: signups by 2 Aug 2026 (12,734). Revenue in days 0–89 after the signup timestamp, all products. The 127th and 128th users are ₹9 apart (₹733.8 and ₹725.0), so the bar is shown as about ₹730. "Days 60–89" means 60 ≤ days since signup &lt; 90. Days 90–120 figures use only users with at least 30 days observed after day 90 ("observable").</span>
+  </div>
+</section>
+
+<!-- ================= PAGE 3: Q1b ================= -->
+<section class="page" aria-label="Page 3">
+  <div class="ph"><span class="q"><b>Q1</b> Who is worth focusing on · Alternatives tested</span><span class="pn">Page 3 / 10</span></div>
+  <header>
+    <h2>We tested eight other definitions and four variants; ours keeps 70% of revenue and is statistically tied with the best at predicting who keeps earning</h2>
+    <p class="lede">A good definition must cover most of the revenue and pick users who are still valuable next month. The fair test: what each group earned in days 90–120, the month after the definition window: how many still earned, how much the typical member earned, and the total.<br><b>Base rate: 6.3% of all users earn anything in days 90–120.</b></p>
+  </header>
+  <div class="tw">
+  <table class="t wrapcells alt">
+    <thead><tr class="grp"><th colspan="2"></th><th colspan="2" class="g">Who it picks (first 90 days)</th><th colspan="4" class="g">What they earn next month (days 90–120)<span class="i" tabindex="0" role="img" aria-label="Definition: Counted only for members with at least 30 days of data after day 90, so the month after the definition window can be seen in full." data-tip="Counted only for members with at least 30 days of data after day 90, so the month after the definition window can be seen in full.">i</span></th><th></th></tr><tr><th>#</th><th>Definition</th><th class="r">Users<span class="i" tabindex="0" role="img" aria-label="Definition: Signups who meet the definition." data-tip="Signups who meet the definition.">i</span></th><th class="r">Share of 90-day revenue<span class="i" tabindex="0" role="img" aria-label="Definition: Members&#x27; revenue in their first 90 days ÷ the same for all 12,734 signups." data-tip="Members&#x27; revenue in their first 90 days ÷ the same for all 12,734 signups.">i</span></th><th class="r">Still earning<span class="i" tabindex="0" role="img" aria-label="Definition: How many of the observable members earned anything in days 90–119." data-tip="How many of the observable members earned anything in days 90–119.">i</span></th><th class="r">Typical member (median ₹)<span class="i" tabindex="0" role="img" aria-label="Definition: Median revenue per observable member in days 90–119." data-tip="Median revenue per observable member in days 90–119.">i</span></th><th class="r">Average ₹<span class="i" tabindex="0" role="img" aria-label="Definition: Mean revenue per observable member in days 90–119; pulled up by a few heavy users." data-tip="Mean revenue per observable member in days 90–119; pulled up by a few heavy users.">i</span></th><th class="r">Total ₹<span class="i" tabindex="0" role="img" aria-label="Definition: Sum of observable members&#x27; revenue in days 90–119. All observable users together earned ₹1,28,783." data-tip="Sum of observable members&#x27; revenue in days 90–119. All observable users together earned ₹1,28,783.">i</span></th><th>What it shows</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td>0</td><td><b>Ours: top 1% by 90-day revenue + active in month 3</b></td><td class="r">94</td><td class="r">69.5%</td><td class="r">52 of 67 (78%)</td><td class="r">480</td><td class="r">1,573</td><td class="r">₹1,05,402</td><td>Best balance of revenue covered and staying power</td></tr>
+      <tr><td>1</td><td>Top 1%, no activity rule</td><td class="r">127</td><td class="r">90.0%</td><td class="r">57 of 94 (61%)</td><td class="r">62</td><td class="r">1,135</td><td class="r">₹1,06,697</td><td>Covers more revenue, but a quarter have already stopped</td></tr>
+      <tr><td>2</td><td>Users making up 80% of 90-day revenue</td><td class="r">71</td><td class="r">80.2%</td><td class="r">33 of 53 (62%)</td><td class="r">480</td><td class="r">1,832</td><td class="r">₹97,096</td><td>Weak staying power: only 33 of 53 (62%) still earn next month, vs 78% for ours. Includes 17 lapsed users and misses 40 of ours</td></tr>
+      <tr><td>3</td><td>At least ₹1,000 + active in month 3</td><td class="r">81</td><td class="r">68.0%</td><td class="r">43 of 58 (74%)</td><td class="r">417</td><td class="r">1,735</td><td class="r">₹1,00,602</td><td>Similar; a round-number bar with no extra benefit</td></tr>
+      <tr><td>4</td><td>Top 1% by month-3 revenue only</td><td class="r">127</td><td class="r">69.4%</td><td class="r">74 of 97 (76%)</td><td class="r">220</td><td class="r">1,190</td><td class="r">₹1,15,427</td><td>Adds many low earners, so value per member falls next month (median ₹220, average ₹1,190 vs our ₹480 and ₹1,573)</td></tr>
+      <tr><td>5</td><td>Revenue in all 3 months, top 1% of those</td><td class="r">127</td><td class="r">63.0%</td><td class="r">72 of 88 (82%)</td><td class="r">120</td><td class="r">1,048</td><td class="r">₹92,224</td><td>Adds many low earners, so value per member falls next month (median ₹120, average ₹1,048 vs our ₹480 and ₹1,573), and it covers less revenue (63.0% vs 69.5%)</td></tr>
+      <tr><td>6</td><td>At least 20 trading days + ₹300</td><td class="r">94</td><td class="r">75.0%</td><td class="r">48 of 70 (69%)</td><td class="r">242</td><td class="r">1,219</td><td class="r">₹85,334</td><td>Activity-led; weaker next month</td></tr>
+      <tr><td>7</td><td>2+ products + ₹500</td><td class="r">88</td><td class="r">61.0%</td><td class="r">43 of 66 (65%)</td><td class="r">62</td><td class="r">1,017</td><td class="r">₹67,093</td><td>Product breadth alone isn't value</td></tr>
+      <tr><td>8</td><td>Ours minus F&amp;O users losing over ₹5 per ₹1 of brokerage</td><td class="r">65</td><td class="r">52.0%</td><td class="r">36 of 44 (82%)</td><td class="r">564</td><td class="r">1,943</td><td class="r">₹85,476</td><td>A quarter of our revenue comes from heavy F&amp;O losers</td></tr>
+      <tr class="sep"><td>9–12</td><td>Top 1% + activity in a different month (month 1, month 2, months 2+3, or all three)</td><td class="r">78–115</td><td class="r">60.8–84.7%</td><td class="r">61–82%</td><td class="r">61–560</td><td class="r">1,134–1,570</td><td class="r">₹86,332–1,00,167</td><td class="ink2">Month 3 drives staying power; a month-1 rule is no better than no rule. Stricter rules gain 2–4 points (could be chance) and cost 5–9 points of revenue.</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="grid g3">
+    <div class="card">
+      <p class="k">Why not “F&amp;O traders only”?</p>
+      <p class="small">F&amp;O is 72% of high-value revenue, but an F&amp;O-only filter gives <b class="num">61 users</b> and 55.9% of revenue. It drops <b class="num">33 of our 94</b> (35%) and 19.5% of their revenue: mostly very active intraday and margin stock traders (median 98 successful orders in 90 days). The result holds with a ₹500 or ₹1,000 bar.</p>
+      <p class="small ink2"><b>Fallback:</b> if retention can only work on one product, use the F&amp;O-only list (61 users, 56%) and accept that loss.</p>
+    </div>
+    <div class="card risk">
+      <p class="k">Wrong answers, and why</p>
+      <ul class="tight small">
+        <li><b>Money invested in mutual funds:</b> Groww earns ₹2 per order whatever the amount.</li>
+        <li><b>Number of orders or IPO applications:</b> a ₹1 IPO bid counts the same as a ₹20 F&amp;O trade.</li>
+        <li><b>Top 5% of users:</b> the bar falls to about ₹30 in 90 days; that is not high value.</li>
+        <li><b>One busy week:</b> top users earn in month-long spells, so a week catches noise.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="k">Reading the table fairly</p>
+      <ul class="tight small ink2">
+        <li>Rules that require month-3 activity win on staying power partly by construction; revenue-ranked rules win on revenue share by construction.</li>
+        <li>Definition 8's edge rests on 44 users and can't be told apart from ours.</li>
+        <li><b>Next-month money:</b> all observable users earned ₹1.29L in days 90–120. Our 94 (67 of them observable) keep 82% of it. Def. 4 keeps 90%, but only by adding 36 users worth about ₹280 each, and it is helped by ranking on the month just before.</li>
+        <li>12 top earners were not active in month 1, and 7 of our 94 only started after day 60.</li>
+        <li>Not measurable here: mutual fund assets and trail income, MTF interest, cost to serve.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot"><span>Comparison window: days 90–120 after signup, users with at least 30 days observed after day 90 ("52 of 67" = of the 67 eligible members, 52 earned). Median and average are per user in that window. 'Could be chance' = not significant in tests against our definition (p = 0.12–0.18).</span></div>
+</section>
+
+<!-- ================= PAGE 4: Q1c ================= -->
+<section class="page" aria-label="Page 4">
+  <div class="ph"><span class="q"><b>Q1</b> Who is worth focusing on · How they differ</span><span class="pn">Page 4 / 10</span></div>
+  <header>
+    <h2>High-value users trade often, steadily and across products, and that intensity is also their main risk</h2>
+    <p class="lede">High-value users compared with everyone else who earned Groww anything, over the first 90 days. A few heavy traders pull averages up, so the typical (median) user is shown beside each average. Demographics barely separate the groups; trading behaviour does. Lapsed top earners are compared separately, below the main table.</p>
+  </header>
+  <div class="grid g21">
+    <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+    <div class="tw">
+    <table class="t wrapcells hv4">
+      <colgroup><col style="width:36%"><col style="width:16%"><col style="width:16%"><col style="width:16%"><col style="width:16%"></colgroup>
+      <thead><tr class="grp"><th></th><th colspan="2" class="g">High value (94)<span class="i" tabindex="0" role="img" aria-label="Definition: Top 1% of signups by revenue in their first 90 days who also placed a revenue-earning order in days 60–89." data-tip="Top 1% of signups by revenue in their first 90 days who also placed a revenue-earning order in days 60–89.">i</span></th><th colspan="2" class="g">Other users who earned anything (1,546)<span class="i" tabindex="0" role="img" aria-label="Definition: Signups with some revenue in their first 90 days but outside the top 1%. Lapsed top earners are compared separately below." data-tip="Signups with some revenue in their first 90 days but outside the top 1%. Lapsed top earners are compared separately below.">i</span></th></tr><tr><th>Measure, first 90 days after signup</th><th class="r">Average<span class="i" tabindex="0" role="img" aria-label="Definition: Mean per user. A few heavy traders pull it up." data-tip="Mean per user. A few heavy traders pull it up.">i</span></th><th class="r">Median<span class="i" tabindex="0" role="img" aria-label="Definition: The typical user: half are above, half below." data-tip="The typical user: half are above, half below.">i</span></th><th class="r">Average</th><th class="r">Median</th></tr></thead>
+      <tbody>
+        <tr class="hl"><td class="lbl"><b>Revenue per month</b></td><td class="r"><b>₹1,888</b></td><td class="r"><b>₹1,009</b></td><td class="r">₹17</td><td class="r">₹5</td></tr>
+        <tr class="sep"><td class="lbl">Revenue-earning orders in 90 days</td><td class="r"><b>290</b></td><td class="r"><b>172</b></td><td class="r">10</td><td class="r">6</td></tr>
+        <tr><td class="lbl">Trading days in 90 days³</td><td class="r"><b>28</b></td><td class="r"><b>26</b></td><td class="r">3</td><td class="r">1</td></tr>
+        <tr><td class="lbl">Products used</td><td class="r">2.0</td><td class="r">2</td><td class="r">1.3</td><td class="r">1</td></tr>
+        <tr><td class="lbl">Revenue per order</td><td class="r">₹19.6</td><td class="r"><span class="muted">–</span></td><td class="r">₹4.9</td><td class="r"><span class="muted">–</span></td></tr>
+        <tr><td class="lbl">Stock turnover (stock traders only)</td><td class="r"><span class="muted">–</span></td><td class="r">₹7.7L</td><td class="r"><span class="muted">–</span></td><td class="r">₹3.4k</td></tr>
+        <tr class="sep"><td class="lbl">Active in month 1 / month 2</td><td class="r c2" colspan="2">87% / 88%</td><td class="r c2" colspan="2">81% / 56%</td></tr>
+        <tr><td class="lbl">Earned again after day 90⁴</td><td class="r c2" colspan="2">80%</td><td class="r c2" colspan="2">47%</td></tr>
+        <tr><td class="lbl">Use margin trading (MTF)</td><td class="r c2" colspan="2"><b>13%</b></td><td class="r c2" colspan="2">3%</td></tr>
+        <tr><td class="lbl">First revenue in week 1</td><td class="r c2" colspan="2">62%</td><td class="r c2" colspan="2">58%</td></tr>
+        <tr><td class="lbl">F&amp;O rejections caused by margin</td><td class="r c2" colspan="2">81%</td><td class="r c2" colspan="2">87%</td></tr>
+        <tr><td class="lbl">Their F&amp;O traders: loss per ₹1 of brokerage</td><td class="r"><span class="muted">–</span></td><td class="r">₹3.5</td><td class="r"><span class="muted">–</span></td><td class="r"><span class="muted">–</span></td></tr>
+        <tr><td class="lbl">Their F&amp;O traders who are net losers</td><td class="r c2" colspan="2">84%</td><td class="r c2" colspan="2"><span class="muted">–</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="card risk">
+      <h3 style="font-size:17px">Why did the 33 lapsed users stop?</h3>
+      <p class="k" style="margin:2px 0 0">Their final two weeks vs high-value users on the same dates</p>
+      <div class="tw">
+      <table class="t">
+        <thead><tr><th>Measure (25 lapsed F&amp;O traders)</th><th class="r">Lapsed users, final 2 weeks<span class="i" tabindex="0" role="img" aria-label="Definition: Median lapsed user over their last 14 days, ending at their last F&amp;O trade." data-tip="Median lapsed user over their last 14 days, ending at their last F&amp;O trade.">i</span></th><th class="r">High-value users, same dates<span class="i" tabindex="0" role="img" aria-label="Definition: Median high-value user over the same 14 calendar days as each lapsed user." data-tip="Median high-value user over the same 14 calendar days as each lapsed user.">i</span></th><th>Could the gap be chance?<span class="i" tabindex="0" role="img" aria-label="Definition: Plain-language reading of a statistical test, after allowing for running 4 tests at once. Test details are in the footnote." data-tip="Plain-language reading of a statistical test, after allowing for running 4 tests at once. Test details are in the footnote.">i</span></th></tr></thead>
+        <tbody>
+          <tr><td>Trades per trading day</td><td class="r"><b>6.7</b></td><td class="r">3.4</td><td>Unlikely</td></tr>
+          <tr><td>Average losing streak (trades)</td><td class="r"><b>2.6</b></td><td class="r">1.8</td><td>Unlikely, but about half comes from simply trading more²</td></tr>
+          <tr><td>Win rate</td><td class="r">45%</td><td class="r">53%</td><td>Possibly</td></tr>
+          <tr><td>Average P&amp;L per trade</td><td class="r">−₹163</td><td class="r">−₹82</td><td>Likely</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="small">They traded more per day and lost slightly more often: heavy traders, but not outliers (70th–77th percentile of traders on the same dates). They were not blocked: none of the 33 placed any order at all in month 3, and margin rejections didn't rise. Why they stopped isn't visible in this data, which has no balance or withdrawal records. We don't claim "ran out of money" or "losing streak".</p>
+    </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="card">
+        <p class="k">Demographics: no strong signature</p>
+        <ul class="tight small">
+          <li>Among onboarded users: median age 30 vs 26; income ≥ ₹5L 24% vs 19%; city tier and channel about the same.</li>
+          <li><b>Already in the KYC registry</b> is the one useful flag: 62% of high-value users vs 41% of onboarded users. Among onboarded users, 3.7% of registry-verified users become high value vs 1.6% of others (<b>2.3×</b>).</li>
+        </ul>
+      </div>
+      <div class="card answer">
+        <p class="k">The 2–3 differences strong enough to act on</p>
+        <ol class="steps small">
+          <li><span><b>They trade often and steadily:</b> the typical high-value user places about 170 revenue orders on 26 trading days in 90 days (average 290 on 28), at ≈ ₹20 per order. Track trading days, not sign-ups or deposits.</span></li>
+          <li><span><b>They use more products, including margin:</b> 2.0 products; 13% use MTF vs 3%. Cross-selling stocks and MTF to active traders fits how they already behave.</span></li>
+          <li><span><b>Their intensity is the risk sign:</b> in their final weeks, lapsed top earners traded about twice as many times a day as the typical high-value user on the same dates. Watch for trading falling well below a user's own recent peak (signal still to be validated).</span></li>
+        </ol>
+      </div>
+      <div class="card">
+      <p class="k">Retention focus</p>
+      <ul class="tight small">
+        <li><b>Main effort: high-value users showing early signs of slipping.</b> They bring about ₹1.8L a month in total. About 1 in 5 (22%) stop earning in the month after day 90; they hold about 18% of the group's revenue, roughly ₹32k a month. Because those who stay trade a bit more, the group's revenue falls about 12% net (≈ ₹20k a month).</li>
+        <li><b>Lapsed top earners:</b> low-cost automated win-back (reminders, offers), not personal attention.</li>
+        <li><b>What retention should offer:</b> better tools, education and risk controls, not prompts to trade more. There is no campaign data yet, so priority follows revenue size and natural return rates.</li>
+        <li><b>Guardrail for F&amp;O-heavy high-value users:</b> risk tools and education only; no trading nudges, offers or rewards. Most of them lose money on F&amp;O.</li>
+      </ul>
+    </div>
+    </div>
+  </div>
+  <div class="foot">
+    <span>Window: days 0–89 after signup. "Other users who earned anything" = some 90-day revenue but not in the top 1%. ² Users who trade more have longer runs by chance; adjusted for trade count the streak gap could be chance (p = 0.076). Test details: paired Wilcoxon tests over 25 windows with Holm correction for 4 tests; p = 0.006 (trades per day), &lt;0.001 (streak), 0.039 (win rate), 0.49 (P&amp;L). Win-rate gap depends on the comparison group: against all other F&amp;O traders on the same dates it is 45% vs 46–50%, not significant. P&amp;L is gross, before charges. ³ Days with a revenue order in F&amp;O, stocks or commodities. ⁴ Any time from day 90 to 31 Oct, so windows differ by signup date; page 2's days 90–120 column is the like-for-like version.</span>
+  </div>
+</section>
+
+<!-- ================= Q2 COVER ================= -->
+<section class="page cover" id="q2" aria-label="Question 2 cover">
+  <div class="ph"><span class="q"><b>Question 2</b> Cover · not counted</span><span></span></div>
+  <div class="qgrid">
+    <div class="qn">Q2</div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <p class="k">The watchlist</p>
+      <p class="qtext">Every week, the team can give personal attention to about 20 newly signed-up users. They only have each user's first 7 days after signup to choose them, and a user's value can change over time. Which 20 users should they pick each week so that the most of them turn out to be high value (as defined in Q1) by day 90 after signup?</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PAGE 5: Q2a ================= -->
+<section class="page" aria-label="Page 5">
+  <div class="ph"><span class="q"><b>Q2</b> The watchlist · The scorecard</span><span class="pn">Page 5 / 10</span></div>
+  <header>
+    <h2>A 10-signal points card, built from what high-value users look like in their first week</h2>
+    <p class="lede">Only information available by day 7 is used: orders in the first 7 days, account setup steps completed within 7 days, the KYC registry flag, signup platform and channel. Later information (current KYC status, first-investment product) is excluded so nothing leaks from the future.</p>
+  </header>
+  <div class="stats">
+    <div class="stat"><span class="big num">≈707</span><span class="l">new signups a week to choose from (18 test weeks, Mon–Sun; first week partial)</span></div>
+    <div class="stat"><span class="big num">5.2</span><span class="l">future high-value users in an average week (range 2–10)</span></div>
+    <div class="stat"><span class="big num">≈26%</span><span class="l">best possible hit rate: even a perfect list of 20 has only ~5 hits</span></div>
+    <div class="stat"><span class="big num">0.74%</span><span class="l">chance that a random signup becomes high value</span></div>
+  </div>
+  <div class="tw">
+    <table class="t wrapcells">
+      <thead><tr><th>Week-1 signal (yes / no)<span class="i" tabindex="0" role="img" aria-label="Definition: Each signal is measured only on the user&#x27;s first 7 days after signup." data-tip="Each signal is measured only on the user&#x27;s first 7 days after signup.">i</span></th><th class="r">Signups with it<span class="i" tabindex="0" role="img" aria-label="Definition: Of the 12,734 signups with a full 90 days of data." data-tip="Of the 12,734 signups with a full 90 days of data.">i</span></th><th class="r">Share of future high-value users with it<span class="i" tabindex="0" role="img" aria-label="Definition: Of the 94 users who became high value by day 90, the share who showed this signal in week 1." data-tip="Of the 94 users who became high value by day 90, the share who showed this signal in week 1.">i</span></th><th class="r">Share of everyone else with it<span class="i" tabindex="0" role="img" aria-label="Definition: Of the other 12,640 signups, the share who showed this signal in week 1." data-tip="Of the other 12,640 signups, the share who showed this signal in week 1.">i</span></th><th class="r">Chance of becoming high value: with it / without it<span class="i" tabindex="0" role="img" aria-label="Definition: Share of signups with (or without) the signal who became high value by day 90. Base rate: 0.74%." data-tip="Share of signups with (or without) the signal who became high value by day 90. Base rate: 0.74%.">i</span></th><th class="r">Points<span class="i" tabindex="0" role="img" aria-label="Definition: Added to the day-7 score. Set from the model weight × 2, rounded." data-tip="Added to the day-7 score. Set from the model weight × 2, rounded.">i</span></th></tr></thead>
+      <tbody>
+        <tr class="hl"><td>Stock account set up</td><td class="r">3,300</td><td class="r">94%</td><td class="r">25.4%</td><td class="r">2.7% / 0.06%</td><td class="r"><b>+5</b></td></tr>
+        <tr><td>Earned Groww ₹200+</td><td class="r">55</td><td class="r">24%</td><td class="r">0.3%</td><td class="r">42% / 0.6%</td><td class="r"><b>+3</b></td></tr>
+        <tr><td>Earned Groww ₹50–200</td><td class="r">90</td><td class="r">21%</td><td class="r">0.6%</td><td class="r">22% / 0.6%</td><td class="r"><b>+2</b></td></tr>
+        <tr><td>Traded F&amp;O</td><td class="r">81</td><td class="r">30%</td><td class="r">0.4%</td><td class="r">35% / 0.5%</td><td class="r"><b>+2</b></td></tr>
+        <tr><td>Traded on 2 or more days (F&amp;O, stocks or commodities)</td><td class="r">333</td><td class="r">50%</td><td class="r">2.3%</td><td class="r">14% / 0.4%</td><td class="r"><b>+2</b></td></tr>
+        <tr><td>Earned revenue on days 3–6 (kept going)</td><td class="r">550</td><td class="r">56%</td><td class="r">3.9%</td><td class="r">9.6% / 0.3%</td><td class="r"><b>+2</b></td></tr>
+        <tr><td>Already in the KYC registry</td><td class="r">2,927</td><td class="r">62%</td><td class="r">22.7%</td><td class="r">2.0% / 0.4%</td><td class="r"><b>+2</b></td></tr>
+        <tr><td>Earned only ₹1–50</td><td class="r">830</td><td class="r">16%</td><td class="r">6.4%</td><td class="r">1.8% / 0.7%</td><td class="r"><b>−1</b></td></tr>
+        <tr><td>Used 2 or more products</td><td class="r">95</td><td class="r">15%</td><td class="r">0.6%</td><td class="r">14.7% / 0.6%</td><td class="r">0</td></tr>
+        <tr><td>Used intraday or margin</td><td class="r">181</td><td class="r">15%</td><td class="r">1.3%</td><td class="r">7.7% / 0.6%</td><td class="r">0</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="grid g3" style="grid-template-columns:1fr 1.35fr 0.9fr">
+    <div class="card answer">
+      <p class="k">How the points were set: reverse-engineered from high-value users</p>
+      <ol class="steps small">
+        <li><span>Turned what Q1 showed about high-value users into 10 yes/no signals visible in week 1.</span></li>
+        <li><span>Checked each signal alone (table above). Every one separates high-value users from the rest on its own.</span></li>
+        <li><span>Weighed them together in one statistical model, so overlapping signals aren't counted twice. That is why "2+ products" and "intraday" end at 0: other signals already cover them.</span></li>
+        <li><span>Points = model weight × 2, rounded, so each point raises the odds by about 1.65×. The rounded points put users in almost exactly the same order as the full model.</span></li>
+        <li><span>Tested week by week: each week was scored with points learned from the other weeks. Points move by at most ±1 between refits; "stock account set up" is +5 every time. One set is frozen for use and refitted monthly.</span></li>
+      </ol>
+    </div>
+    <div class="card">
+      <p class="k">Score bands (maximum score 16)</p>
+      <div class="tw">
+      <table class="t wrapcells">
+        <thead><tr><th>Score on day 7<span class="i" tabindex="0" role="img" aria-label="Definition: Sum of the points above for each new signup (maximum 16)." data-tip="Sum of the points above for each new signup (maximum 16).">i</span></th><th class="r">Signups per week<span class="i" tabindex="0" role="img" aria-label="Definition: Typical number of new signups in a week with a score in this band." data-tip="Typical number of new signups in a week with a score in this band.">i</span></th><th class="r">Share who become high value<span class="i" tabindex="0" role="img" aria-label="Definition: From week-by-week testing: points learned on the other weeks, applied to each week." data-tip="From week-by-week testing: points learned on the other weeks, applied to each week.">i</span></th><th>Use</th></tr></thead>
+        <tbody>
+          <tr class="hl"><td>13 or more</td><td class="r">~4–5</td><td class="r">~32%</td><td>Always pick. About 1 in 3 also become lapsed top earners, so flag them for retention early</td></tr>
+          <tr><td>10–12</td><td class="r">~5</td><td class="r">~20%</td><td>Pick</td></tr>
+          <tr><td>9 or less</td><td class="r">~10 to fill 20</td><td class="r">~3%</td><td>Fill the remaining slots by score, then by week-1 revenue</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+    <div class="card plain">
+      <p class="k">Weekly routine</p>
+      <ol class="steps small">
+        <li><span>On day 7 after each signup week closes, score every user in that week.</span></li>
+        <li><span>Take the top 20 by score; break ties by higher week-1 revenue. The 20th pick usually scores 8 (range 7–9).</span></li>
+        <li><span>Give the top 10 the most attention: that is where nearly all hits are (next page, shown for the revenue-ranked list).</span></li>
+        <li><span>Pass the 13+ scorers to retention as well: they include most future lapsers.</span></li>
+        <li><span><b>Measure whether attention works:</b> each week, leave a random half of slots 11–20 without personal attention and compare how many become high value by day 90.</span></li>
+      </ol>
+    </div>
+  </div>
+  <div class="foot"><span>Shares in the bands table come from week-by-week testing (technical name: leave-one-week-out). The model is a logistic regression (C = 1); rounded and raw scores rank users with a correlation of 0.9998. "Chance with / without" = share of users with / without the signal who became high value by day 90. The ₹1–50 signal carries little information; its −1 only partly offsets the activity points such users collect, so the card slightly over-rates small-ticket multi-day traders (predicted ~7%, actual ~2%).</span></div>
+</section>
+
+<!-- ================= PAGE 6: Q2b ================= -->
+<section class="page" aria-label="Page 6">
+  <div class="ph"><span class="q"><b>Q2</b> The watchlist · Results and limits</span><span class="pn">Page 6 / 10</span></div>
+  <header>
+    <h2>About 3 of every 20 picks become high value: 55% of what a perfect list could catch, and about as good as ranking by week-1 revenue</h2>
+    <p class="lede">A week has about 5.2 future high-value users, so even a perfect list of 20 would catch only about 5 (26%). The scorecard catches 2.9 a week (14% of picks), 52 of 94 over 18 weeks. Each week was scored with points learned from the other 17 weeks, so results are on users the method had not seen.</p>
+  </header>
+  <div class="tw">
+    <table class="t wrapcells">
+      <thead><tr><th>Method</th><th class="r">High-value users caught (of 94)<span class="i" tabindex="0" role="img" aria-label="Definition: Picks that became high value by day 90, summed over 18 weeks. Each week was scored with points learned from the other 17 weeks." data-tip="Picks that became high value by day 90, summed over 18 weeks. Each week was scored with points learned from the other 17 weeks.">i</span></th><th class="r">Lapsed top earners picked<span class="i" tabindex="0" role="img" aria-label="Definition: Picks that reached the top 1% by day 90 but placed no revenue order in days 60–89." data-tip="Picks that reached the top 1% by day 90 but placed no revenue order in days 60–89.">i</span></th><th class="r">Share of all 90-day revenue held by picks<span class="i" tabindex="0" role="img" aria-label="Definition: The 360 picks&#x27; 90-day revenue ÷ all 90-day revenue of the 12,734 signups." data-tip="The 360 picks&#x27; 90-day revenue ÷ all 90-day revenue of the 12,734 signups.">i</span></th><th class="r">Forward-only test: caught of 30<span class="i" tabindex="0" role="img" aria-label="Definition: Points learned only from users whose 90 days had already ended, then applied to the last 5 weeks (30 high-value users). Closest to real use." data-tip="Points learned only from users whose 90 days had already ended, then applied to the last 5 weeks (30 high-value users). Closest to real use.">i</span></th></tr></thead>
+      <tbody>
+        <tr><td>A. Top 20 by week-1 revenue</td><td class="r">50 (53%)</td><td class="r">25</td><td class="r">57%</td><td class="r">13</td></tr>
+        <tr class="hl"><td><b>B. Points scorecard (chosen)</b></td><td class="r"><b>52 (55%)</b></td><td class="r">23</td><td class="r">59%</td><td class="r">11</td></tr>
+        <tr><td>C1. Statistical model using all signals</td><td class="r">45 (48%)</td><td class="r">24</td><td class="r">58%</td><td class="r">6</td></tr>
+        <tr><td>C2. Machine-learning model</td><td class="r">48 (51%)</td><td class="r">24</td><td class="r">59%</td><td class="r">5</td></tr>
+        <tr><td class="muted">Random 20 a week</td><td class="r muted">≈ 3</td><td class="r muted">–</td><td class="r muted">–</td><td class="r muted">–</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card plain">
+      <p class="k">Why the scorecard over the models</p>
+      <ul class="tight small">
+        <li>With only ~5 high-value users a week, complex models learn noise: both models do worse than the simple rules, especially in the forward-only test.</li>
+        <li>The scorecard and "top 20 by revenue" are within noise of each other (B is 52–54 depending on ties, A 49–51). The scorecard wins on being explainable: the team can see why a user was picked and act on it.</li>
+        <li><b>The realistic number is the forward-only test.</b> Week-by-week testing lets later weeks help set the points, which slightly flatters every method. Learning only from weeks whose 90 days had ended, the scorecard caught 11 of 30 (37%) in the last 5 weeks. So refit the points every month.</li>
+      </ul>
+  </div>
+  <div class="grid g2">
+    <div class="card plain">
+      <p class="k">High-value users caught each week by the scorecard (52 in 18 weeks)</p>
+      <div class="legend"><span><i class="sw n"></i>Future high-value users that week (the most a list could catch)</span><span><i class="sw"></i>Caught by the scorecard</span></div>
+      <div class="chart" id="weeks" role="img" aria-label="Hits per week for 18 weeks against the future high-value users in each week; on average 2.9 caught of 5.2 possible, vs 0.15 for random picks"></div>
+      <p class="small ink2">On average 2.9 caught of 5.2 possible a week (random picks: 0.15).</p>
+    </div>
+    <div class="card plain">
+      <h3 style="font-size:15px">Are the top-ranked picks the ones that pay off?</h3>
+      <p class="k" style="margin:2px 0 0">Rule A list (top 20 by week-1 revenue), ranked by week-1 revenue (rank 1 = highest), totals over 18 weeks (50 hits)</p>
+      <div class="tw">
+      <table class="t">
+        <thead><tr><th>Rank in the weekly list<span class="i" tabindex="0" role="img" aria-label="Definition: Where a pick sits in its week's list of 20, ranked by week-1 revenue. 1–5 = the 5 highest earners in week 1." data-tip="Where a pick sits in its week's list of 20, ranked by week-1 revenue. 1–5 = the 5 highest earners in week 1.">i</span></th><th>Share that became high value<span class="i" tabindex="0" role="img" aria-label="Definition: Share of picks in these positions that became high value by day 90." data-tip="Share of picks in these positions that became high value by day 90.">i</span></th><th class="r">High-value users caught<span class="i" tabindex="0" role="img" aria-label="Definition: Total over 18 weeks." data-tip="Total over 18 weeks.">i</span></th><th class="r">Share of all 90-day revenue<span class="i" tabindex="0" role="img" aria-label="Definition: These picks&#x27; 90-day revenue ÷ all 90-day revenue of the 12,734 signups." data-tip="These picks&#x27; 90-day revenue ÷ all 90-day revenue of the 12,734 signups.">i</span></th></tr></thead>
+        <tbody>
+          <tr><td>Ranks 1–5</td><td><div class="bar" data-tip="Slots 1–5: 34% become high value"><div class="f" style="width:100%"></div></div><span class="num">34%</span></td><td class="r">31</td><td class="r">40.8%</td></tr>
+          <tr><td>Ranks 6–10</td><td><div class="bar" data-tip="Slots 6–10: 17% become high value"><div class="f" style="width:50%"></div></div><span class="num">17%</span></td><td class="r">15</td><td class="r">12.1%</td></tr>
+          <tr><td>Ranks 11–15</td><td><div class="bar" data-tip="Slots 11–15: 3.3% become high value"><div class="f" style="width:9.7%"></div></div><span class="num">3.3%</span></td><td class="r">3</td><td class="r">3.5%</td></tr>
+          <tr><td>Ranks 16–20</td><td><div class="bar" data-tip="Slots 16–20: 1.1% become high value"><div class="f" style="width:3.2%"></div></div><span class="num">1.1%</span></td><td class="r">1</td><td class="r">0.8%</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="small ink2">46 of 50 hits sit in the top 10. <b>Recommendation:</b> use slots 11–20 as the test bed: give personal attention to a random half and compare how many become high value, to measure whether attention changes anything.</p>
+    </div>
+  </div>
+  <div class="grid g21">
+    <div>
+      <h3 style="font-size:15px;margin-bottom:6px">Where the 360 picks (18 weeks × 20) end up by day 90</h3>
+      <div class="tw">
+      <table class="t">
+        <thead><tr><th>Revenue group<span class="i" tabindex="0" role="img" aria-label="Definition: Signups ranked by 90-day revenue and grouped by how much of total revenue they cover, from the top earner down." data-tip="Signups ranked by 90-day revenue and grouped by how much of total revenue they cover, from the top earner down.">i</span></th><th class="r">90-day revenue range<span class="i" tabindex="0" role="img" aria-label="Definition: Range of 90-day revenue per user within the group." data-tip="Range of 90-day revenue per user within the group.">i</span></th><th class="r">Signups in group<span class="i" tabindex="0" role="img" aria-label="Definition: All signups in the group, picked or not." data-tip="All signups in the group, picked or not.">i</span></th><th class="r">Picked<span class="i" tabindex="0" role="img" aria-label="Definition: How many of the 360 picks (18 weeks × 20) fall in the group." data-tip="How many of the 360 picks (18 weeks × 20) fall in the group.">i</span></th><th class="r">Of which high value / lapsed<span class="i" tabindex="0" role="img" aria-label="Definition: Picks in the group that became high value, and picks that reached the top 1% but lapsed." data-tip="Picks in the group that became high value, and picks that reached the top 1% but lapsed.">i</span></th><th class="r">Share of all picks<span class="i" tabindex="0" role="img" aria-label="Definition: Picks in the group ÷ 360." data-tip="Picks in the group ÷ 360.">i</span></th><th class="r">Share of the group picked<span class="i" tabindex="0" role="img" aria-label="Definition: Picks in the group ÷ signups in the group." data-tip="Picks in the group ÷ signups in the group.">i</span></th></tr></thead>
+        <tbody>
+          <tr class="hl"><td>Top → 50% of revenue</td><td class="r">₹9,260–40,880</td><td class="r">23</td><td class="r">14</td><td class="r">9 / 5</td><td class="r">4%</td><td class="r">61%</td></tr>
+          <tr class="hl"><td>50–75%</td><td class="r">₹3,296–9,110</td><td class="r">33</td><td class="r">23</td><td class="r">16 / 7</td><td class="r">6%</td><td class="r">70%</td></tr>
+          <tr class="hl"><td>75–80%</td><td class="r">₹2,540–3,252</td><td class="r">14</td><td class="r">7</td><td class="r">6 / 1</td><td class="r">2%</td><td class="r">50%</td></tr>
+          <tr class="hl"><td>80–90% (rest of top 1%)</td><td class="r">₹734–2,501</td><td class="r">57</td><td class="r">31</td><td class="r">21 / 10</td><td class="r">9%</td><td class="r">54%</td></tr>
+          <tr><td>90–95% (near miss)</td><td class="r">₹194–725</td><td class="r">101</td><td class="r">54</td><td class="r">–</td><td class="r">15%</td><td class="r">53%</td></tr>
+          <tr><td>95–99%</td><td class="r">₹22–192</td><td class="r">500</td><td class="r">137</td><td class="r">–</td><td class="r">38%</td><td class="r">27%</td></tr>
+          <tr><td>99–100%</td><td class="r">₹0.3–22</td><td class="r">945</td><td class="r">87</td><td class="r">–</td><td class="r">24%</td><td class="r">9%</td></tr>
+          <tr><td>No revenue</td><td class="r">₹0</td><td class="r">11,061</td><td class="r">7</td><td class="r">–</td><td class="r">2%</td><td class="r">&lt;0.1%</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="small ink2" style="margin-top:6px">Of every 20 picks, about 3 become high value, about 1 more is a top earner who has stopped trading by month 3, and about 3 just miss the bar (₹194–725 in 90 days, just below the top 1%). Picks hold 58.6% of all 90-day revenue: <b>₹1,247 per pick vs ₹60 per average user (≈21×)</b>.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="card risk">
+        <p class="k">Limitations of a list built on the first 7 days</p>
+        <ul class="tight small">
+          <li><b>Silent starters:</b> 36 of 94 high-value users earned nothing in week 1 (33 placed no order). They are too rare to pick (0.31% base rate); no zero-revenue user scores above 7.</li>
+          <li><b>Late starters:</b> 7 of 94 only began trading after day 60.</li>
+          <li><b>Future lapsers look the same at day 7:</b> lists pick 23–25 of the 33 lapsed top earners.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <p class="k">Example week · 6–12 July (823 signups, 6 future HV)</p>
+        <p class="small">2 hits. Slot 1 (score 14; ₹600 in week 1, 30 F&amp;O trades) earned ₹9,420 by day 90. Slot 7 (score 10; ₹315) earned ₹1,227. Slot 3 (score 14) became a lapsed top earner. Slots 11–20 scored 8–9 with ₹2–25 in week 1.</p>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Hits = picked users who meet the Q1 definition by day 90. Random baseline: 20 × 0.74% ≈ 0.15 hits a week (≈ 3 over 18 weeks). Forward-only test: points learned only from users whose 90 days had already ended, tested on the last 5 weeks (30 HV). Technical names: leave-one-week-out cross-validation; logistic regression; gradient boosting.</span></div>
+</section>
+
+<!-- ================= Q3 COVER ================= -->
+<section class="page cover" id="q3" aria-label="Question 3 cover">
+  <div class="ph"><span class="q"><b>Question 3</b> Cover · not counted</span><span></span></div>
+  <div class="qgrid">
+    <div class="qn">Q3</div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <p class="k">Where should the next marketing rupee go?</p>
+      <p class="qtext">Marketing wants to move budget towards the acquisition channels that bring the most valuable users. Which channels should get more budget, and which should get less?</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PAGE 7: Q3a ================= -->
+<section class="page" aria-label="Page 7">
+  <div class="ph"><span class="q"><b>Q3</b> Marketing channels · Value per signup</span><span class="pn">Page 7 / 10</span></div>
+  <header>
+    <h2>Value per signup ranges from ₹10 to ₹384 by channel, but one or two users drive most channel averages</h2>
+    <p class="lede">For each channel: the revenue its signups brought in their first 90 days, divided by its number of signups (12,734 users with a full 90 days). Because a single heavy trader can make a small channel look great, each row also shows the value with its top user removed.</p>
+  </header>
+  <p class="small muted">Across all channels: ₹60 per signup in the first 90 days; 0.74% of signups become high value.</p>
+  <div class="tw">
+  <table class="t" id="chtable">
+    <thead><tr class="grp"><th colspan="2"></th><th colspan="2" class="g">Value per signup, first 90 days<span class="i" tabindex="0" role="img" aria-label="Definition: Channel&#x27;s revenue in each user&#x27;s first 90 days ÷ its signups. It is the most the channel can pay per signup and still break even on gross revenue." data-tip="Channel&#x27;s revenue in each user&#x27;s first 90 days ÷ its signups. It is the most the channel can pay per signup and still break even on gross revenue.">i</span></th><th colspan="2" class="g">Do its users trade?</th><th></th></tr><tr><th>Channel</th><th style="white-space:nowrap;text-align:left">Signups<span class="i" tabindex="0" role="img" aria-label="Definition: Signups up to 2 Aug 2026, so every user has a full 90 days of data." data-tip="Signups up to 2 Aug 2026, so every user has a full 90 days of data.">i</span></th><th style="min-width:230px">₹ per signup<div class="legend xs" style="margin-top:4px;text-transform:none;letter-spacing:0;font-family:var(--body)"><span><i class="sw"></i>all signups (value at bar end)</span><span><i class="dt"></i>without the top user (value below dot)</span></div></th><th class="r">Top user's share<span class="i" tabindex="0" role="img" aria-label="Definition: Share of the channel&#x27;s 90-day revenue from its single top user. High = the average rests on one person." data-tip="Share of the channel&#x27;s 90-day revenue from its single top user. High = the average rests on one person.">i</span></th><th class="r">High-value users<span class="i" tabindex="0" role="img" aria-label="Definition: Signups from the channel who became high value (Q1 definition)." data-tip="Signups from the channel who became high value (Q1 definition).">i</span></th><th class="r">Share earning anything<span class="i" tabindex="0" role="img" aria-label="Definition: Share of the channel&#x27;s signups with any revenue in their first 90 days." data-tip="Share of the channel&#x27;s signups with any revenue in their first 90 days.">i</span></th><th>Budget call<span class="i" tabindex="0" role="img" aria-label="Definition: Recommendation; rows are grouped by call. No spend data exists, so every call depends on what a signup costs." data-tip="Recommendation; rows are grouped by call. No spend data exists, so every call depends on what a signup costs.">i</span></th></tr></thead>
+    <tbody></tbody>
+  </table>
+  </div>
+  <div class="grid g3">
+    <div class="card plain">
+      <p class="k">How channels were grouped</p>
+      <p class="small ink2">The raw field mixes channel groups with partner IDs (33 channels, 103 sub-channels). Partners were checked online and grouped: OfferDeck is a Vserv product; Moloco, DV360, Jampp and Mobavenue are programmatic ad buyers; NDTV Convergence is NDTV's digital arm; Appnext and similar are pay-per-install networks (four small ones could not be verified and were grouped by campaign naming). Publishers are kept separate.</p>
+    </div>
+    <div class="card plain">
+      <p class="k">How sure are we?</p>
+      <ul class="tight small ink2">
+        <li>Likely ranges by re-running the numbers on thousands of random re-samples of users; outlier checks removing the top 1–3 users.</li>
+        <li>A second check on all 20,000 signups using 30-day revenue gives broadly the same order: Apple Search Ads ₹127, Referral ₹83, publishers ₹31, Organic ₹23, Google ₹21, app-install networks ₹12, NDTV ₹8.</li>
+      </ul>
+    </div>
+    <div class="card risk">
+      <p class="k">What this can't tell us</p>
+      <p class="small">There is no spend or cost-per-signup data. Each figure is the most a channel can pay per signup and still break even on gross 90-day revenue, before any costs. It ranks value, not return on spend.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Revenue: all products, days 0–89 after signup. "% earning anything" = share of the channel's signups with any revenue in 90 days. Organic is not a paid channel and is the comparison base. Apple Search Ads "without top 2" = ₹155; Referral "without top 3" = ₹26. Channels were also checked by signup month: Apple Search Ads' value sits almost entirely in June–July signups (page 8). 89 of its 141 signups came through Groww-brand keyword searches, so some may have joined anyway.</span></div>
+</section>
+
+<!-- ================= PAGE 8: Q3b ================= -->
+<section class="page" aria-label="Page 8">
+  <div class="ph"><span class="q"><b>Q3</b> Marketing channels · Where the budget moves</span><span class="pn">Page 8 / 10</span></div>
+  <header>
+    <h2>Grow Apple Search Ads in capped steps and HT, Zee and Referral gradually; cut channels whose users trade small and rarely become high value</h2>
+    <p class="lede"><b>Budget rule:</b> shift money into a channel only while it costs less per signup than it earns in 90 days, and scale in steps so each step can be measured. The figures below are what each channel can afford to pay.</p>
+    <p class="lede"><b>Why every channel is compared with Organic:</b> Organic signups come to Groww with no marketing spend, so they show what Groww gets if it does nothing. A paid channel earns its budget only by beating that baseline: more users who start trading, more revenue per signup, more high-value users. Organic is also the largest group (4,760 signups), so its numbers are stable, and people who find Groww on their own are likely already motivated, which makes it a demanding bar to beat.</p>
+  </header>
+  <div class="grid g4" style="grid-template-columns:repeat(5,1fr)">
+    <div class="card" style="border-top:3px solid var(--s3)"><span class="chip more">More, capped steps</span><h3>Apple Search Ads</h3><p class="small ink2">Highest value per signup, but it came from June–July signups. Raise in capped monthly steps and re-check each month.</p></div>
+    <div class="card" style="border-top:3px solid var(--s1)"><span class="chip grad">More, gradually</span><h3>HT · Zee · Referral</h3><p class="small ink2">More of their users start trading. The revenue gain isn't proven yet, so grow and measure.</p></div>
+    <div class="card" style="border-top:3px solid var(--muted)"><span class="chip hold">Hold</span><h3>Google Ads main campaign</h3><p class="small ink2">₹60 per signup across 3,642 users and 30 of Google's 31 high-value users.</p></div>
+    <div class="card" style="border-top:3px dashed var(--muted)"><span class="chip unc">Unclear</span><h3>Whale-driven channels</h3><p class="small ink2">News Nation, Vserv, programmatic and others: averages fall apart without 1–2 users. At most a capped test.</p></div>
+    <div class="card" style="border-top:3px solid var(--s2)"><span class="chip less">Less</span><h3>NDTV · Times Internet · app-install networks</h3><p class="small ink2">₹0–21 per signup and almost no high-value users; also Google's small campaigns.</p></div>
+  </div>
+  <div class="grid g2" style="grid-template-columns:1.1fr 1fr;align-items:start">
+    <div class="card plain">
+      <h3 style="font-size:15px">Apple Search Ads vs Organic: why "more", and why "capped"</h3>
+      <div class="tw">
+      <table class="t wrapcells">
+        <thead><tr><th>Measure</th><th class="r">Apple Search Ads</th><th class="r">Organic</th><th>Is the gap real?</th></tr></thead>
+        <tbody>
+          <tr class="sep"><td colspan="4" class="k" style="padding-top:8px">Why more</td></tr>
+          <tr><td>90-day revenue per signup</td><td class="r"><b>₹384</b></td><td class="r">₹52</td><td>Gap +₹332; likely range +₹60 to +₹670†</td></tr>
+          <tr><td>Share becoming high value</td><td class="r"><b>4.26%</b></td><td class="r">0.65%</td><td>Clear difference</td></tr>
+          <tr><td>Share earning anything in 30 days (all Apr–Sep signups)</td><td class="r"><b>23%</b></td><td class="r">10%</td><td>Clear; higher in every signup month</td></tr>
+          <tr><td>Median revenue per earning user</td><td class="r">₹46</td><td class="r">₹18.6</td><td>Clear difference</td></tr>
+          <tr><td>Just an iOS effect?</td><td class="r" colspan="2">No: other iOS channels ₹14–18</td><td>–</td></tr>
+          <tr class="sep"><td colspan="4" style="padding-top:8px"><span class="k" style="display:block;margin:0">Why capped</span><span class="small"><b>Invest in capped monthly steps and track each step's return closely (revenue per signup against what the signups cost), because of these risks:</b></span></td></tr>
+          <tr class="rk"><td>Share of 90-day revenue from Jun–Jul signups</td><td class="r"><b>98%</b></td><td class="r">–</td><td>All 6 high-value users too</td></tr>
+          <tr class="rk"><td>30-day ₹ per signup in the other months</td><td class="r">₹5.8</td><td class="r">₹23.5</td><td>Below Organic outside Jun–Jul</td></tr>
+          <tr class="rk"><td>Share of 90-day revenue from F&amp;O</td><td class="r">93%</td><td class="r">68%*</td><td>Adds to Q4's F&amp;O risk</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="xs muted">† How the range is found: we re-drew the 141 Apple Search Ads users and the 4,760 Organic users at random (with replacement) 10,000 times, and each time worked out ASA ₹ per signup minus Organic ₹ per signup. The middle 90% of those 10,000 gaps runs from +₹60 to +₹670 (a 90% bootstrap interval). It is wide because a few ASA users carry most of its revenue, but its 90% range stays above zero (about 1 in 80 re-draws is at or below zero).<br>* 68% = all 12,734 signups with a full 90 days, first 90 days. 89 of the 141 signups came through Groww-brand keyword searches, so some may have joined anyway.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="card">
+        <h3 style="font-size:15px">Why HT and Zee (and Referral) get more budget, gradually</h3>
+        <p class="small ink2" style="margin-top:2px">More of their users start trading than Organic, but the revenue gain isn't proven yet at this size.</p>
+        <div class="tw">
+        <table class="t">
+          <thead><tr><th>Measure</th><th class="r">HT</th><th class="r">Zee</th><th class="r">Organic</th></tr></thead>
+          <tbody>
+            <tr><td>Share of signups who earn anything</td><td class="r"><b>17%</b></td><td class="r"><b>17%</b></td><td class="r">11%</td></tr>
+            <tr><td>Revenue per signup, top 1% trimmed</td><td class="r">₹10.6</td><td class="r">₹9.0</td><td class="r">₹4.6</td></tr>
+            <tr><td>Share becoming high value</td><td class="r">1.16%</td><td class="r">1.18%</td><td class="r">0.65%</td></tr>
+          </tbody>
+        </table>
+        </div>
+        <p class="small ink2">The trading gap is clear and revenue is about 2× Organic after trimming outliers; the high-value gap could still be chance at this size. Referral: 44% of its 61 signups earn vs 11%, but its revenue rests on 3 users.</p>
+      </div>
+      <div class="card">
+        <h3 style="font-size:15px">Google Ads: one campaign carries it</h3>
+        <div class="tw">
+        <table class="t">
+          <thead><tr><th>Google campaign</th><th class="r">Signups</th><th class="r">₹ per signup</th><th class="r">High-value users</th></tr></thead>
+          <tbody>
+            <tr class="hl"><td>Main Android campaign</td><td class="r">3,642</td><td class="r">₹60</td><td class="r">30</td></tr>
+            <tr class="rk"><td>10 other campaigns (incl. F&amp;O-targeted: ₹6, 0 HV)</td><td class="r">608</td><td class="r">₹0–19</td><td class="r">1</td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+      <div class="card risk">
+        <h3 style="font-size:15px">Why "unclear" isn't "more"</h3>
+        <p class="small">News Nation shows ₹131 per signup, but one user is 81% of it; without its top 2 users it earns ₹3.5. Programmatic shows ₹77, but ₹23 without its top user. These averages come from one lucky signup, not a channel that reliably brings traders.</p>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Test details vs Organic: ASA high-value share p &lt; 0.001 (Fisher), median earner p = 0.013; HT/Zee share earning p &lt; 0.001, high-value share p = 0.17 / 0.29. Likely range = 90% bootstrap interval. Main Android campaign = uac_android_v3_all_fid_troas. All revenue is gross brokerage in the first 90 days; it is the ceiling on what a channel can cost per signup, not a measure of profit.</span></div>
+</section>
+
+<!-- ================= Q4 COVER ================= -->
+<section class="page cover" id="q4" aria-label="Question 4 cover">
+  <div class="ph"><span class="q"><b>Question 4</b> Cover · not counted</span><span></span></div>
+  <div class="qgrid">
+    <div class="qn">Q4</div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <p class="k">Revenue concentration and the next bet</p>
+      <p class="qtext">How concentrated is Groww's revenue in certain pockets, and what should be the next bet if that source shrank significantly?</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PAGE 9: Q4a ================= -->
+<section class="page" aria-label="Page 9">
+  <div class="ph"><span class="q"><b>Q4</b> Concentration · How exposed are we</span><span class="pn">Page 9 / 10</span></div>
+  <header>
+    <h2>About 84% of revenue rests on one group, retail F&amp;O traders, and a 30% F&amp;O drop would cost 21–25% of revenue</h2>
+    <p class="lede">All revenue from April to October 2026 (₹14.63L from 3,107 users), looked at three ways: by product, by user, and by the group of users behind each product.</p>
+  </header>
+  <div class="card plain">
+    <p class="k">1 · By product: share of ₹14.63L</p>
+    <div class="seg" role="img" aria-label="Revenue by product: F&amp;O 70.7%, stocks 20.4%, commodities 7.4%, mutual funds 0.8%, IPO 0.6%">
+      <div class="a" style="flex:70.7" data-tip="F&amp;O: ₹10.35L, 70.7%, 281 users">F&amp;O 70.7%</div>
+      <div class="b" style="flex:20.4" data-tip="Stocks: ₹2.98L, 20.4%, 1,847 users">Stocks 20.4%</div>
+      <div class="c" style="flex:7.4" data-tip="Commodities: ₹1.09L, 7.4%, 87 users">7.4%</div>
+      <div class="d" style="flex:1.4;padding:0" data-tip="Mutual funds 0.8% (₹12,416, 910 users) and IPO 0.6% (₹8,974, 1,190 users)"></div>
+    </div>
+    <div class="legend"><span><i class="sw"></i>F&amp;O ₹10.35L</span><span><i class="sw o"></i>Stocks ₹2.98L</span><span><i class="sw" style="background:var(--s3)"></i>Commodities ₹1.09L</span><span><i class="sw n"></i>Mutual funds + IPO ₹21k</span><span class="muted">F&amp;O's share by month: 55–75%</span></div>
+  </div>
+  <div class="grid g3">
+    <div class="card">
+      <p class="k">2 · By user</p>
+      <div class="tw">
+      <table class="t">
+        <thead><tr><th>Top users</th><th>Share of all revenue<span class="i" tabindex="0" role="img" aria-label="Definition: Revenue Apr–Oct from the top N users ÷ all ₹14.63L, across 3,107 users who earned anything." data-tip="Revenue Apr–Oct from the top N users ÷ all ₹14.63L, across 3,107 users who earned anything.">i</span></th></tr></thead>
+        <tbody>
+          <tr><td>Top 10</td><td><div class="bar" data-tip="Top 10 users: 24.9% of revenue"><div class="f" style="width:24.9%"></div></div><span class="num">24.9%</span></td></tr>
+          <tr><td>Top 50</td><td><div class="bar" data-tip="Top 50 users: 60.1%"><div class="f" style="width:60.1%"></div></div><span class="num">60.1%</span></td></tr>
+          <tr><td>Top 100</td><td><div class="bar" data-tip="Top 100 users: 77.4%"><div class="f" style="width:77.4%"></div></div><span class="num">77.4%</span></td></tr>
+          <tr><td>Top 200</td><td><div class="bar" data-tip="Top 200 users: 90.0%"><div class="f" style="width:90%"></div></div><span class="num">90.0%</span></td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="small ink2">Of 3,107 users with any revenue. Inside F&amp;O (281 users), the top 10 bring 33% and the top 30 bring 57%.</p>
+    </div>
+    <div class="card">
+      <p class="k">3 · By the group behind each product</p>
+      <div class="tw">
+      <table class="t">
+        <thead><tr><th>Revenue that comes from F&amp;O traders<span class="i" tabindex="0" role="img" aria-label="Definition: Share of each product&#x27;s Apr–Oct revenue earned from the 281 users with at least one executed F&amp;O order." data-tip="Share of each product&#x27;s Apr–Oct revenue earned from the 281 users with at least one executed F&amp;O order.">i</span></th><th class="r">Share</th></tr></thead>
+        <tbody>
+          <tr><td>F&amp;O</td><td class="r">100%</td></tr>
+          <tr class="rk"><td>Commodities</td><td class="r"><b>94.6%</b></td></tr>
+          <tr><td>Margin trading (MTF)</td><td class="r">55.2%</td></tr>
+          <tr><td>All stocks</td><td class="r">32.6%</td></tr>
+          <tr class="hl"><td><b>All revenue</b></td><td class="r"><b>≈ 84%</b></td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="small ink2">Commodities look like a second business, but 78 of its 87 users are F&amp;O traders.</p>
+    </div>
+    <div class="card risk">
+      <p class="k">Why this group is fragile</p>
+      <ul class="tight small">
+        <li><b>Inside F&amp;O:</b> 92.9% is index options (NIFTY 64%, SENSEX 26%); 35.7% of orders are placed on expiry day.</li>
+        <li><b>They lose money:</b> 79% of all F&amp;O traders in this data with recorded P&amp;L are net losers (211 of 267); together they lost about ₹3.7 per ₹1 of brokerage (Apr–Oct, gross).</li>
+        <li><b>Rules keep tightening:</b> unique individual F&amp;O traders fell from 61.4 lakh to 42.7 lakh between Q1 and Q4 FY25, as stricter SEBI rules came in; 87.7% of individual traders still lost money in FY26.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="grid g2">
+    <div>
+      <p class="k">Stress test: F&amp;O revenue falls 30%</p>
+      <div class="tw">
+      <table class="t">
+        <thead><tr><th>How the drop happens</th><th class="r">Revenue lost (Apr–Oct)<span class="i" tabindex="0" role="img" aria-label="Definition: Loss in Apr–Oct revenue under each scenario." data-tip="Loss in Apr–Oct revenue under each scenario.">i</span></th><th style="min-width:180px">Share of all revenue lost<span class="i" tabindex="0" role="img" aria-label="Definition: Revenue lost ÷ ₹14.63L." data-tip="Revenue lost ÷ ₹14.63L.">i</span></th></tr></thead>
+        <tbody>
+          <tr><td>Everyone trades F&amp;O 30% less (30% of ₹10.35L)</td><td class="r">₹3.10L</td><td><div class="bar" data-tip="−21% of total revenue"><div class="f alt" style="width:84%"></div></div><span class="num">−21%</span></td></tr>
+          <tr><td>The top 9 F&amp;O traders (30.6% of F&amp;O) stop F&amp;O only and keep trading other products (they bring ₹15k there)</td><td class="r">₹3.17L</td><td><div class="bar" data-tip="−22% of total revenue"><div class="f alt" style="width:87%"></div></div><span class="num">−22%</span></td></tr>
+          <tr><td>Traders spread across the base leave and take 30% of their other revenue too</td><td class="r">₹3.71L</td><td><div class="bar" data-tip="−25% of total revenue"><div class="f alt" style="width:100%"></div></div><span class="num">−25%</span></td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+    <div class="card">
+      <p class="k">Why 30% is a realistic case</p>
+      <p class="small ink2">SEBI's October 2024 measures (larger contract sizes, one weekly expiry per exchange, higher expiry-day margins, intraday position checks) came in during FY25, when unique traders per quarter fell about 30% from Q1 to Q4. In this data, 88 of the 94 high-value users would stay above the high-value bar, but their revenue would fall 22%. The 92 traders who place at least half their F&amp;O orders on expiry day (20.9% of F&amp;O revenue) are the most exposed to further expiry rules.</p>
+    </div>
+  </div>
+  <div class="subsec">
+    <div class="subsec-h"><h3 style="font-size:17px">What not to bet on, and why</h3><span class="small muted">Products that look like alternatives to F&amp;O but are not</span></div>
+    <div class="grid g2e" style="align-items:start">
+    <div class="card plain">
+      <p class="k">What not to bet on</p>
+      <div class="tw">
+      <table class="t">
+        <thead><tr><th>Not the next bet</th><th>Why not</th></tr></thead>
+        <tbody>
+          <tr><td><b>Commodities</b></td><td>94.6% of its revenue comes from F&amp;O traders; it falls with F&amp;O instead of protecting against it</td></tr>
+          <tr><td><b>MTF on its own</b></td><td>₹53k; the top 5 users bring 65% (typical user ₹4.80), and 55% comes from F&amp;O traders</td></tr>
+          <tr><td><b>Activation</b></td><td>3,187 onboarded users never earned anything; 10% activating adds only ₹6–53k</td></tr>
+          <tr><td><b>IPO-only users into trading</b></td><td>474 users; 10% converting adds ₹1–6k</td></tr>
+          <tr><td><b>Mutual funds</b></td><td>₹13.6 per user here; no asset or trail-income data</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+    <div class="card plain">
+      <p class="k">Why commodities are not the answer: what the 82 F&amp;O stoppers did, 60 days before vs 60 days after their last F&amp;O trade</p>
+      <div class="tw">
+      <table class="t">
+        <thead><tr><th>Revenue from</th><th class="r">60 days before<span class="i" tabindex="0" role="img" aria-label="Definition: Revenue in the 60 days up to and including each user&#x27;s last F&amp;O trade." data-tip="Revenue in the 60 days up to and including each user&#x27;s last F&amp;O trade.">i</span></th><th class="r">60 days after<span class="i" tabindex="0" role="img" aria-label="Definition: Revenue in the 60 days after each user&#x27;s last F&amp;O trade." data-tip="Revenue in the 60 days after each user&#x27;s last F&amp;O trade.">i</span></th><th style="min-width:170px">Change<span class="i" tabindex="0" role="img" aria-label="Definition: After vs before, summed over the 82 stoppers." data-tip="After vs before, summed over the 82 stoppers.">i</span></th></tr></thead>
+        <tbody>
+          <tr class="hl"><td><b>Stocks</b></td><td class="r">₹7,160 (31 users)</td><td class="r">₹1,671 (8 users)</td><td><div class="bar" data-tip="Stocks: −77% after stopping F&amp;O"><div class="f" style="width:77%"></div></div><span class="num">−77%</span></td></tr>
+          <tr class="rk"><td><b>Commodities</b></td><td class="r">₹12,100 (17 users)</td><td class="r">₹400 (3 users)</td><td><div class="bar" data-tip="Commodities: −97% after stopping F&amp;O"><div class="f alt" style="width:97%"></div></div><span class="num">−97%</span></td></tr>
+        </tbody>
+      </table>
+      </div>
+      <ul class="tight small ink2" style="margin-top:8px">
+        <li><b>Commodities end with F&amp;O:</b> of 18 stoppers who ever traded commodities, 11 made their last commodity trade within a week of their last F&amp;O trade.</li>
+        <li><b>Commodities only look better:</b> they earn ₹154 per active day vs ₹101 for intraday stocks, because only the heaviest F&amp;O traders use them (median 171 F&amp;O orders vs 24). 61% of commodity trading days are also F&amp;O days, vs 20% for stocks.</li>
+        <li><b>The wider market:</b> MCX options volumes rose 4.3× year on year in August 2026, while SEBI is prioritising cash equities. For Groww, commodities are the same options-buying risk on another exchange; stocks are the safer home.</li>
+      </ul>
+    </div>
+    </div>
+  </div>
+  <div class="foot">
+    <span>Revenue Apr–Oct 2026, all users. P&amp;L is gross (before charges), recorded on F&amp;O entry orders. "≈ 84%" = F&amp;O revenue plus the commodity and stock revenue of F&amp;O traders.</span>
+    <span>Sources: <a href="https://www.outlookmoney.com/invest/retail-participation-in-futures-and-options-fno-decline-after-sebi-tightens-rules">SEBI study, Jul 2025, via Outlook Money</a> (61.4 lakh to 42.7 lakh unique traders) · <a href="https://www.businesstoday.in/markets/story/rs91685-cr-lost-88-of-individual-traders-lost-money-in-fy26-options-drove-92-of-losses-550474-2026-08-21">SEBI study, Aug 2026, via Business Today</a> (87.7% loss-makers in FY26) · SEBI circular of 1 Oct 2024 on equity index derivatives · <a href="https://www.5paisa.com/index.php/blog/mcx-in-focus-as-commodity-derivatives-volumes-surge-bernstein-sees-further-growth">Bernstein via 5paisa, Sep 2026</a> (MCX options volumes 4.3×) · <a href="https://www.brecorder.com/news/amp/40431094">Reuters via Business Recorder</a> (SEBI prioritising cash equities).</span>
+    <span>Stoppers: users with 5+ executed F&amp;O orders and no executed F&amp;O order in the last 60+ days to 31 Oct 2026. Windows are 60 days either side of each user's last F&amp;O date. ₹ per active day = revenue ÷ user-days with a revenue order in that product, among F&amp;O traders.</span>
+  </div>
+</section>
+
+<!-- ================= PAGE 10: Q4b ================= -->
+<section class="page" aria-label="Page 10">
+  <div class="ph"><span class="q"><b>Q4</b> Concentration · The next bet</span><span class="pn">Page 10 / 10</span></div>
+  <header>
+    <h2>No single product fills a ₹3.1L gap. The next bet is stock trading, built two ways.</h2>
+    <p class="lede">Part A widens the base so less revenue depends on F&amp;O traders. Part B keeps F&amp;O traders' revenue when rules push them out of F&amp;O.</p>
+  </header>
+  <div class="grid g2e">
+    <div class="card answer">
+      <p class="k">Part A · Grow stock trading among users who don't trade F&amp;O</p>
+      <div class="stats" style="grid-template-columns:repeat(3,1fr)">
+        <div class="stat"><span class="big num">₹2.0L</span><span class="l">stock brokerage (Apr–Oct) from 1,701 users who never traded F&amp;O: the only sizeable revenue not tied to F&amp;O traders</span></div>
+        <div class="stat"><span class="big num">26%</span><span class="l">of that ₹2.0L comes from its top 10 users (vs 33% for the top 10 in F&amp;O), so it doesn't hinge on a few traders</span></div>
+        <div class="stat"><span class="big num">₹20</span><span class="l">earned from the typical (median) user over Apr–Oct, vs ₹118 on average: most trade very little, so there is room to grow</span></div>
+      </div>
+      <ul class="tight small">
+        <li><b>Goal:</b> get more of these users trading like the 70 who already earn Groww ₹500+.</li>
+        <li><b>Realistic case:</b> if the 170 users closest to ₹500 reach it, revenue rises by about ₹9–49k (3–16% of the ₹3.1L gap).</li>
+        <li><b>Upside case:</b> if those 170 traded like today's ₹500+ users, about ₹1.8L (58% of the gap). So Part A alone cannot fill the gap.</li>
+        <li><b>MTF as the upsell:</b> offer margin trading to heavy delivery traders; only 3.9% of non-F&amp;O delivery traders (62 of 1,576) use it today, and its interest income isn't counted here.</li>
+      </ul>
+    </div>
+    <div class="card answer">
+      <p class="k">Part B · Move F&amp;O traders into stocks before they stop F&amp;O</p>
+      <div class="stats" style="grid-template-columns:repeat(3,1fr)">
+        <div class="stat"><span class="big num">16<small>of 82</small></span><span class="l">users who stopped F&amp;O earned Groww anything afterwards</span></div>
+        <div class="stat"><span class="big num">135</span><span class="l">F&amp;O traders who have never traded stocks: the first target</span></div>
+        <div class="stat"><span class="big num">92</span><span class="l">expiry-day-heavy traders, most exposed to new rules</span></div>
+      </div>
+      <ul class="tight small">
+        <li><b>Left alone, they go quiet rather than switch:</b> ₹1.49L of F&amp;O revenue in their last 60 days; ₹2.1k from stocks and commodities in the 60 days after (₹2.7k over all remaining days).</li>
+        <li><b>Run it as a test, not a rollout:</b> each month, take F&amp;O traders whose F&amp;O trading is falling; offer the stock path to a random half and leave the other half alone. Success = more of the offered half earn stock revenue within 60 days (today only 8 of 82 stoppers did, 10%).</li>
+        <li><b>Offer, in order:</b> delivery stocks and ETFs with risk tools first; intraday and MTF only as an opt-in for experienced traders.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="grid g2e">
+    <div class="card plain">
+      <h3 style="font-size:15px">Can any one bet fill the ₹3.1L gap?</h3>
+      <p class="xs muted" style="margin-bottom:4px">Extra revenue over the same seven months, against the revenue lost if F&amp;O shrinks 30%</p>
+      <div class="gap-row"><span><b>The gap</b> (F&amp;O −30%)</span><div class="gap-track"><div class="g full" style="left:0;width:100%"></div></div><span class="v">₹3.10L</span></div>
+      <div class="gap-row"><span>Part A, upside case</span><div class="gap-track"><div class="g" style="left:0;width:57.7%"></div></div><span class="v">₹1.79L</span></div>
+      <div class="gap-row"><span>Part A, realistic case</span><div class="gap-track"><div class="g rng" style="left:2.9%;width:12.9%"></div></div><span class="v">₹9–49k</span></div>
+      <div class="gap-row"><span>Activation: 10% of never-earning onboarded users</span><div class="gap-track"><div class="g rng" style="left:1.9%;width:15.2%"></div></div><span class="v">₹6–53k</span></div>
+      <div class="gap-row" style="border-bottom:0"><span>IPO-only users into trading (10%)</span><div class="gap-track"><div class="g rng" style="left:0.3%;width:1.6%"></div></div><span class="v">₹1–6k</span></div>
+      <p class="small ink2" style="margin-top:6px">No single bet comes close, so the plan combines Part A and Part B.</p>
+    </div>
+    <div class="card answer">
+      <h3 style="font-size:15px">What to track every month</h3>
+      <div class="tw">
+      <table class="t">
+        <thead><tr><th>Signal</th><th class="r">Today</th><th>What a change would mean</th></tr></thead>
+        <tbody>
+          <tr><td>F&amp;O share of revenue</td><td class="r">55–75% a month</td><td>Above 75%: more exposed. A sudden drop: rules biting</td></tr>
+          <tr><td>Share of F&amp;O orders placed on expiry day</td><td class="r">35.7%</td><td>A sharp fall after a new expiry rule: revenue at risk</td></tr>
+          <tr><td>F&amp;O traders who also trade stocks</td><td class="r">146 of 281</td><td>Rising: Part B is working</td></tr>
+          <tr><td>Stock revenue per non-F&amp;O user</td><td class="r">₹118 (Apr–Oct)</td><td>Rising: Part A is working</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+  <div class="card risk">
+        <p class="k">Caveats</p>
+        <ul class="tight small">
+          <li>The 82 stoppers quit on their own, not because of a rule, and 85% of them had net F&amp;O losses. Traders forced out by a rule may behave differently, or move to another broker. Treat this as a reference point, not a forecast.</li>
+          <li>Small groups: 82 stoppers; 12 had stock revenue and 4 commodity revenue after stopping.</li>
+          <li>About a third of stock brokerage is filled in with Groww's pricing rule, mostly Sep–Oct (rule matches recorded fees 99.9%).</li>
+        </ul>
+      </div>
+
+  <div class="foot">
+    <span>Stoppers (Part B figures): users with 5+ executed F&amp;O orders and no executed F&amp;O order in the last 60+ days to 31 Oct 2026; details on page 9.</span>
+    <span>Source: Groww pricing page (MTF interest 14.95% a year).</span>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+  // Tooltip for any [data-tip]
+  const tip=document.getElementById('tip');
+  function show(e){const t=e.currentTarget.getAttribute('data-tip');if(!t)return;tip.textContent=t;tip.classList.add('on');move(e)}
+  function move(e){const x=(e.clientX||e.currentTarget.getBoundingClientRect().left)+14, y=(e.clientY||e.currentTarget.getBoundingClientRect().top)+14;
+    const w=tip.offsetWidth,h=tip.offsetHeight;tip.style.left=Math.min(x,window.innerWidth-w-8)+'px';tip.style.top=Math.min(y,window.innerHeight-h-8)+'px'}
+  function hide(){tip.classList.remove('on')}
+  function bind(root){root.querySelectorAll('[data-tip]').forEach(el=>{if(el._b)return;el._b=1;el.addEventListener('mouseenter',show);el.addEventListener('mousemove',move);el.addEventListener('mouseleave',hide);el.addEventListener('focus',show);el.addEventListener('blur',hide);if(!el.hasAttribute('tabindex'))el.setAttribute('tabindex','0')})}
+  const NS='http://www.w3.org/2000/svg';
+  function el(n,a,p){const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+  function txt(p,x,y,s,cls,anchor){const t=el('text',{x,y,'text-anchor':anchor||'start'},p);if(cls)t.setAttribute('class',cls);t.textContent=s;return t}
+
+  // ---- Pareto curve
+  (function(){
+    const pts=[[0,0],[0.05,20.7],[0.1,35.3],[0.19,50],[0.2,51.7],[0.3,64.6],[0.4,72.4],[0.5,77.8],[0.56,80],[0.6,81.7],[0.75,86.1],[1,90.0],[1.25,92.4],[1.5,93.8],[1.8,95],[2,95.6],[2.5,96.6],[3,97.2],[4,98.1],[5,98.7],[6,99.1],[8,99.6],[10,99.8],[13.1,100],[15,100]];
+    const W=640,H=300,m={l:40,r:16,t:16,b:36};const sx=v=>Math.sqrt(v/15);const X=v=>m.l+sx(v)*(W-m.l-m.r), Y=v=>m.t+(1-v/100)*(H-m.t-m.b);
+    const svg=el('svg',{viewBox:`0 0 ${W} ${H}`},document.getElementById('pareto'));
+    const g=el('g',{class:'grid'},svg);
+    [0,25,50,75,100].forEach(v=>{el('line',{x1:m.l,x2:W-m.r,y1:Y(v),y2:Y(v)},g);txt(svg,m.l-6,Y(v)+3,v+'%','', 'end')});
+    [0,0.25,1,2,5,10,15].forEach(v=>{el('line',{x1:X(v),x2:X(v),y1:H-m.b,y2:H-m.b+4,stroke:'var(--line-2)'},svg);txt(svg,X(v),H-m.b+16,v+'%','','middle')});
+    txt(svg,(m.l+W-m.r)/2,H-4,'% of 12,734 signups, highest earners first (square-root scale to show the top end)','', 'middle');
+    el('rect',{x:X(13.1),y:m.t,width:X(15)-X(13.1),height:H-m.t-m.b,fill:'var(--surface-2)'},svg);
+    txt(svg,X(14.05),Y(40),'₹0','lab2','middle');
+    const d=pts.map((p,i)=>(i?'L':'M')+X(p[0]).toFixed(1)+','+Y(p[1]).toFixed(1)).join('');
+    el('path',{d:d+`L${X(15)},${Y(0)}L${X(0)},${Y(0)}Z`,fill:'var(--s1)','fill-opacity':.1,stroke:'none'},svg);
+    el('path',{d,fill:'none',stroke:'var(--s1)','stroke-width':2,'stroke-linejoin':'round','stroke-linecap':'round'},svg);
+    const marks=[[0.19,50,'24 users (0.19%) → 50%',12,4],[0.56,80,'71 users (0.56%) → 80%',12,10],[1,90,'Top 1% · 127 users → 90%',12,14],[5.72,99,'729 users (5.72%) → 99%',-8,22]];
+    marks.forEach((k,i)=>{el('circle',{cx:X(k[0]),cy:Y(k[1]),r:i==2?6:4.5,fill:i==2?'var(--accent)':'var(--s1)',stroke:'var(--surface)','stroke-width':2,'data-tip':k[2]},svg);
+      txt(svg,X(k[0])+k[3],Y(k[1])+k[4],k[2],i==2?'lab':'lab2',k[3]<0?'end':'start')});
+    txt(svg,X(13.1)-6,Y(60),'86.9% of signups','lab2','end');txt(svg,X(13.1)-6,Y(60)+13,'brought ₹0 →','lab2','end');
+    bind(svg.parentNode);
+  })();
+
+  // ---- Weekly hits vs that week's HV
+  (function(){
+    const v=[0,1,2,5,2,3,2,3,5,2,7,4,4,1,2,7,2,0];
+    const hv=[2,2,3,5,3,5,2,4,8,6,10,7,7,4,6,10,4,6];
+    const W=600,H=230,m={l:28,r:10,t:10,b:30};const n=v.length,bw=(W-m.l-m.r)/n;
+    const Y=x=>m.t+(1-x/10)*(H-m.t-m.b);
+    const svg=el('svg',{viewBox:`0 0 ${W} ${H}`},document.getElementById('weeks'));
+    const g=el('g',{class:'grid'},svg);
+    [0,2,4,6,8,10].forEach(t=>{el('line',{x1:m.l,x2:W-m.r,y1:Y(t),y2:Y(t)},g);txt(svg,m.l-6,Y(t)+3,t,'','end')});
+    function col(cx,w,x,fill){if(x<=0)return;const y=Y(x),r=4;el('path',{d:`M${cx-w/2},${Y(0)}V${y+r}Q${cx-w/2},${y} ${cx-w/2+r},${y}H${cx+w/2-r}Q${cx+w/2},${y} ${cx+w/2},${y+r}V${Y(0)}Z`,fill},svg)}
+    v.forEach((x,i)=>{const w=Math.min(22,bw-6),cx=m.l+i*bw+bw/2;
+      col(cx,w,hv[i],'var(--neutral)');col(cx,w-10,x,'var(--s1)');
+      el('rect',{x:m.l+i*bw,y:m.t,width:bw,height:H-m.t-m.b,fill:'transparent','data-tip':`Week ${i+1}${i==0?' (partial: signups start 1 Apr)':''}: caught ${x} of ${hv[i]} future high-value users`},svg);
+      if(i%3==0||i==n-1)txt(svg,cx,H-m.b+14,'W'+(i+1)+(i==0?'*':''),'','middle')});
+    txt(svg,(m.l+W-m.r)/2,H-2,'Signup week, 30 Mar – 2 Aug 2026 (*W1 partial)','','middle');
+    bind(svg.parentNode);
+  })();
+
+  // ---- Channel table
+  (function(){
+    const rows=[
+      ['Apple Search Ads',141,384,230,'41%',6,'24%','more','More, capped steps'],
+      ['Referral',61,125,62,'51%',1,'44%','grad','More, gradually'],
+      ['HT (Hindustan Times)',516,124,77,'38%',6,'17%','grad','More, gradually'],
+      ['Zee',339,103,70,'33%',4,'17%','grad','More, gradually'],
+      ['Google Ads',4250,53,48,'10%',31,'15%','hold','Hold main · cut rest'],
+      ['Organic',4760,52,44,'16%',31,'11%','base','Base (unpaid)'],
+      ['News Nation',70,131,25,'81%',2,'17%','unc','Unclear'],
+      ['Ad partner: other',88,92,12,'87%',1,'11%','unc','Unclear'],
+      ['Programmatic (Moloco, DV360, Jampp, Mobavenue)',408,77,23,'70%',2,'16%','unc','Unclear'],
+      ['Web / mobile site',563,73,40,'45%',4,'9%','unc','Unclear'],
+      ['Others',54,67,21,'69%',2,'19%','unc','Unclear'],
+      ['Vserv (incl. OfferDeck)',384,60,26,'57%',2,'14%','unc','Unclear'],
+      ['Social (Snapchat, X)',82,30,23,'24%',0,'29%','unc','Unclear'],
+      ['Times Internet',80,21,6,'73%',1,'10%','less','Less'],
+      ['NDTV',534,10,5,'47%',1,'15%','less','Less'],
+      ['App-install / affiliate networks',404,10,3,'71%',0,'7%','less','Less']];
+    const tb=document.querySelector('#chtable tbody'), MAX=400;
+    rows.forEach(r=>{const tr=document.createElement('tr');if(r[7]=='more')tr.className='hl';if(r[7]=='less')tr.className='rk';
+      tr.innerHTML=`<td>${r[0]}</td><td>${r[1].toLocaleString('en-IN')}</td>
+      <td><div class="cb" data-tip="${r[0]}: ₹${r[2]} per signup; ₹${r[3]} without its top user"><div class="cb-track"><div class="f" style="width:${r[2]/MAX*100}%"></div><span class="cb-v num" style="left:${r[2]/MAX*100}%">₹${r[2]}</span><div class="dot" style="left:${r[3]/MAX*100}%"></div></div><div class="cb-dl"><span class="num" style="left:${r[3]/MAX*100}%;transform:translateX(${r[3]/MAX*100<4?'-3px':'-50%'})">₹${r[3]}</span></div></div></td>
+      <td class="r">${r[4]}</td><td class="r">${r[5]}</td><td class="r">${r[6]}</td><td><span class="chip ${r[7]}">${r[8]}</span></td>`;
+      tb.appendChild(tr)});
+  })();
+
+  bind(document);
+
+  // nav highlight
+  const links=[...document.querySelectorAll('.nav-links a')];
+  const secs=['summary','q1','q2','q3','q4'].map(id=>document.getElementById(id));
+  function upd(){let cur=null;secs.forEach((s,i)=>{if(s.getBoundingClientRect().top<120)cur=i});links.forEach((a,i)=>a.classList.toggle('on',i===cur))}
+  document.addEventListener('scroll',upd,{passive:true});upd();
+})();
+</script>
+</body>
+</html>

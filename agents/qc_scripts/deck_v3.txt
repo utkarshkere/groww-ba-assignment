@@ -1,0 +1,416 @@
+
+Groww New-User Value Analysis
+ New-user value at Groww · BA / SBA assignment
+ SummaryQ1 High valueQ2 WatchlistQ3 ChannelsQ4 Concentration
+=====SECTION
+ Cover · not counted13 Nov 2026
+ Groww Business Analyst / Senior Business Analyst hiring assignment
+ Who to keep, who to watch, where to spend, and what to build next
+ An analysis of every user who signed up between April and September 2026 and every order they placed until 31 October 2026, across stocks, F&O, commodities, mutual funds and IPOs. Prepared by Utkarsh Kere.
+ Page 1Summary of answers
+ Pages 2–4Q1 · Who is high value
+ Pages 5–6Q2 · The weekly watchlist
+ Pages 7–8Q3 · Marketing channels
+ Pages 9–10Q4 · Concentration & next bet
+ 10 content pages. Cover pages (this one and one per question) carry only the question and are not counted.
+ AI use: analysis done with Claude, with a separate Claude QC agent that recomputed every number from the raw files with its own code. Full prompt history is submitted with this deck.
+=====SECTION
+ Summary The four answers on one pagePage 1 / 10
+ A tiny group of active traders carries the business. Keep them, spot them early, bring more of them, and widen the base beyond F&O.
+ Each card gives the answer, the evidence behind it and what to do. Revenue throughout is the brokerage Groww earns on successful orders; statutory and exchange charges are excluded because they pass through to the exchange and government.
+ Q1 · Who is worth focusing on
+ High value = the top 1% of new users by revenue in their first 90 days, who are still trading in month 3.
+ 94users, 0.74% of the 12,734 signups with a full 90 days
+ 69.5%of all 90-day revenue
+ ≈94×the revenue of an average signup over the first 90 days (₹5,665 vs ₹60 per user)
+ Act on three differences: they trade often and steadily (290 orders on 28 trading days in 90 days), they use more products including margin (13% use MTF vs 3%), and their trading intensity is also the main risk sign. Retention should mean better tools and risk controls, not pushing more trades: the typical high-value F&O trader loses ₹3.5 for every ₹1 of brokerage.
+ Q2 · The weekly watchlist
+ Score every new signup on day 7 with a 10-signal points card and give personal attention to the top 20.
+ ≈3of 20picks a week become high value, vs ~5 if we predicted every high-value user correctly
+ 55%of what a perfect list could catch (52 of 94 over 18 weeks)
+ ₹1,247revenue per pick over the first 90 days vs ₹60 per average signup (≈21×)
+ How to use it: it does about as well as simply ranking by week-1 revenue, but the team can see why each user was picked. When ranked by week-1 revenue, 46 of 50 hits sit in the top 10 slots. The highest scorers include future lapsers too, so the list doubles as a retention-risk list.
+ Q3 · Where the next marketing rupee goes
+ Grow Apple Search Ads in capped monthly steps, and HT, Zee and Referral gradually; cut NDTV, Times Internet and app-install networks.
+ ₹384per Apple Search Ads signup: its 141 signups earned ₹54k in their first 90 days (Organic: ₹52)
+ 23%of Apple Search Ads signups earn Groww anything vs 10% Organic, higher in every signup month
+ ₹10per signup from NDTV and app-install networks
+ Limit: there is no spend or cost-per-signup data, so these figures are the most a channel can cost and still break even on 90-day revenue, not return on spend. Most channel averages are driven by one or two users, so every figure was checked with the top user removed.
+ Q4 · Concentration and the next bet
+ About 84% of revenue rests on retail F&O traders. A 30% F&O drop costs 21–25% of revenue. The next bet is stock trading.
+ 70.7%of revenue is F&O brokerage; 93% of it from index options
+ 25%of revenue from just the top 10 users
+ 16of 82users who stopped F&O earned Groww anything afterwards
+ Two-part bet: grow stock trading among users who don't trade F&O (₹2.0L from 1,701 users, widely spread), with MTF as the upsell; and move F&O traders into stocks while they are still active. Commodities are not a hedge: 95% of that revenue comes from the same F&O traders.
+ How the numbers were built
+ Revenue rules. F&O and commodities ₹20 per executed order; stocks the recorded brokerage per successful order; mutual funds ₹2 per completed order (redemptions included); IPOs ₹1 per successful application.
+ Missing stock fees. 7,880 successful stock orders (29%), almost all in Sep–Oct, have a blank fee. We filled them with Groww's published pricing rule, which reproduces 99.9% of recorded fees. Filled fees are ₹1.01L: 34% of stock revenue, 6.9% of total.
+ Fair windows. Anything measured "by day 90" uses only the 12,734 users who signed up by 2 Aug 2026 and so have a full 90 days of data. Day counts run from the signup timestamp. Per-user comparisons on this page are all over the same first 90 days: an average signup brings ₹60 (₹20 a month).
+ Independent QC. A separate agent recomputed every number from the raw CSVs with its own code and challenged the method. It changed several conclusions; corrected versions are the ones shown.
+=====SECTION
+ Question 1 Cover · not counted
+ Q1
+ Who is worth focusing on?
+ The team can only focus its retention efforts on a small slice of users. Make the case for which slice. Define what “high value” means for Groww (there is no single right answer, but wrong answers exist), then show, with evidence, how high-value users differ from the rest. End with the 2–3 differences strong enough to act on.
+=====SECTION
+ Q1 Who is worth focusing on · The definitionPage 2 / 10
+ Fewer than 1 in 100 new users bring 90% of 90-day revenue, so “high value” has to be defined by revenue
+ We took every user with a full 90 days of history (signed up by 2 Aug 2026, 12,734 users), added up the revenue each brought Groww in their first 90 days, and ranked them. Only 13.1% earned Groww anything at all; the rest are ₹0.
+ Cumulative share of 90-day revenue, users ranked from highest to lowest
+ Revenue share reachedi | Users it takesi | As % of all signupsi | Lowest earner in the groupi | 
+ 50% | 24 | 0.19% | ₹9,110 | 
+ 80% | 71 | 0.56% | ₹2,501 | 
+ 90% (top 1%) | 127–128 | 1.0% | ≈ ₹730 | 
+ 95% | 229 | 1.80% | ₹192 | 
+ 99% | 729 | 5.72% | ₹22 | 
+ Our definition, in two steps
+ Rank by revenue in the first 90 days after signup and take the top 1%: 127 users, each with at least ≈ ₹730, together 90.0% of 90-day revenue. Almost all of it (99.96%) comes from F&O, stocks and commodities.
+ Keep only those still earning in month 3 (at least one revenue order in days 60–89 after signup). That leaves 94 high-value users (0.74% of signups) holding 69.5% of revenue. The other 33 are lapsed top earners (20.5% of revenue).
+ Why step 2 matters: it separates who stays from who is already leaving
+ Top-1% groupi | Users | Share of all 90-day revenuei | Earned anything after day 90i | Earned in the next month (days 90–120)i | 
+ High value (active in month 3) | 94 | 69.5% | 80% | 77.6% | 
+ Lapsed top earners | 33 | 20.5% | 24% | 18.5% | 
+ A user who earned a lot early but placed no order in month 3 is unlikely to come back: retention effort on the 94 protects revenue that is still there. The 33 lapsed are worth a low-cost automated win-back, not personal attention.
+ What the 94 trade
+ F&O 72%
+ Stocks 19%
+ 9%
+ F&OStocksCommoditiesMain product per user: F&O 63 · stocks 27 · commodities 4
+ Cohort: signups by 2 Aug 2026 (12,734). Revenue in days 0–89 after the signup timestamp, all products. The 127th and 128th users are ₹9 apart (₹733.8 and ₹725.0), so the bar is shown as about ₹730. "Days 60–89" means 60 ≤ days since signup < 90. Days 90–120 figures use only users with at least 30 days observed after day 90 ("observable").
+=====SECTION
+ Q1 Who is worth focusing on · Alternatives testedPage 3 / 10
+ We tested eight other definitions and four variants; ours keeps 70% of revenue and is statistically tied with the best at predicting who keeps earning
+ A good definition must cover most of the revenue and pick users who are still valuable next month. The fair test: what each group earned in days 90–120, the month after the definition window: how many still earned, how much the typical member earned, and the total.
+Base rate: 6.3% of all users earn anything in days 90–120.
+ | Who it picks (first 90 days) | What they earn next month (days 90–120)i | | 
+# | Definition | Usersi | Share of 90-day revenuei | Still earningi | Typical member (median ₹)i | Average ₹i | Total ₹i | What it shows | 
+ 0 | Ours: top 1% by 90-day revenue + active in month 3 | 94 | 69.5% | 52 of 67 (78%) | 480 | 1,573 | ₹1,05,402 | Best balance of revenue covered and staying power | 
+ 1 | Top 1%, no activity rule | 127 | 90.0% | 57 of 94 (61%) | 62 | 1,135 | ₹1,06,697 | Covers more revenue, but a quarter have already stopped | 
+ 2 | Users making up 80% of 90-day revenue | 71 | 80.2% | 33 of 53 (62%) | 480 | 1,832 | ₹97,096 | Weak staying power: only 33 of 53 (62%) still earn next month, vs 78% for ours. Includes 17 lapsed users and misses 40 of ours | 
+ 3 | At least ₹1,000 + active in month 3 | 81 | 68.0% | 43 of 58 (74%) | 417 | 1,735 | ₹1,00,602 | Similar; a round-number bar with no extra benefit | 
+ 4 | Top 1% by month-3 revenue only | 127 | 69.4% | 74 of 97 (76%) | 220 | 1,190 | ₹1,15,427 | Adds many low earners, so value per member falls next month (median ₹220, average ₹1,190 vs our ₹480 and ₹1,573) | 
+ 5 | Revenue in all 3 months, top 1% of those | 127 | 63.0% | 72 of 88 (82%) | 120 | 1,048 | ₹92,224 | Adds many low earners, so value per member falls next month (median ₹120, average ₹1,048 vs our ₹480 and ₹1,573), and it covers less revenue (63.0% vs 69.5%) | 
+ 6 | At least 20 trading days + ₹300 | 94 | 75.0% | 48 of 70 (69%) | 242 | 1,219 | ₹85,334 | Activity-led; weaker next month | 
+ 7 | 2+ products + ₹500 | 88 | 61.0% | 43 of 66 (65%) | 62 | 1,017 | ₹67,093 | Product breadth alone isn't value | 
+ 8 | Ours minus F&O users losing over ₹5 per ₹1 of brokerage | 65 | 52.0% | 36 of 44 (82%) | 564 | 1,943 | ₹85,476 | A quarter of our revenue comes from heavy F&O losers | 
+ 9–12 | Top 1% + activity in a different month (month 1, month 2, months 2+3, or all three) | 78–115 | 60.8–84.7% | 61–82% | 61–560 | 1,134–1,570 | ₹86,332–1,00,167 | Month 3 drives staying power; a month-1 rule is no better than no rule. Stricter rules gain 2–4 points (could be chance) and cost 5–9 points of revenue. | 
+ Why not “F&O traders only”?
+ F&O is 72% of high-value revenue, but an F&O-only filter gives 61 users and 55.9% of revenue. It drops 33 of our 94 (35%) and 19.5% of their revenue: mostly very active intraday and margin stock traders (median 98 successful orders in 90 days). The result holds with a ₹500 or ₹1,000 bar.
+ Fallback: if retention can only work on one product, use the F&O-only list (61 users, 56%) and accept that loss.
+ Wrong answers, and why
+ Money invested in mutual funds: Groww earns ₹2 per order whatever the amount.
+ Number of orders or IPO applications: a ₹1 IPO bid counts the same as a ₹20 F&O trade.
+ Top 5% of users: the bar falls to about ₹30 in 90 days; that is not high value.
+ One busy week: top users earn in month-long spells, so a week catches noise.
+ Reading the table fairly
+ Rules that require month-3 activity win on staying power partly by construction; revenue-ranked rules win on revenue share by construction.
+ Definition 8's edge rests on 44 users and can't be told apart from ours.
+ Next-month money: all observable users earned ₹1.29L in days 90–120. Our 94 (67 of them observable) keep 82% of it. Def. 4 keeps 90%, but only by adding 36 users worth about ₹280 each, and it is helped by ranking on the month just before.
+ 12 top earners were not active in month 1, and 7 of our 94 only started after day 60.
+ Not measurable here: mutual fund assets and trail income, MTF interest, cost to serve.
+ Comparison window: days 90–120 after signup, users with at least 30 days observed after day 90 ("52 of 67" = of the 67 eligible members, 52 earned). Median and average are per user in that window. p-values from tests against our definition.
+=====SECTION
+ Q1 Who is worth focusing on · How they differPage 4 / 10
+ High-value users trade often, steadily and across products, and that intensity is also their main risk
+ High-value users compared with everyone else who earned Groww anything, over the first 90 days. A few heavy traders pull averages up, so the typical (median) user is shown beside each average. Demographics barely separate the groups; trading behaviour does. Lapsed top earners are compared separately, below the main table.
+ | High value (94)i | Other users who earned anything (1,546)i | 
+Measure, first 90 days after signup | Averagei | Mediani | Average | Median | 
+ Revenue per month | ₹1,888 | ₹1,009 | ₹17 | ₹5 | 
+ Revenue-earning orders in 90 days | 290 | 172 | 10 | 6 | 
+ Trading days in 90 days³ | 28 | 26 | 3 | 1 | 
+ Products used | 2.0 | 2 | 1.3 | 1 | 
+ Revenue per order | ₹19.6 | – | ₹4.9 | – | 
+ Stock turnover (stock traders only) | – | ₹7.7L | – | ₹3.4k | 
+ Active in month 1 / month 2 | 87% / 88% | 81% / 56% | 
+ Earned again after day 90⁴ | 80% | 47% | 
+ Use margin trading (MTF) | 13% | 3% | 
+ First revenue in week 1 | 62% | 58% | 
+ F&O rejections caused by margin | 81% | 87% | 
+ Their F&O traders: loss per ₹1 of brokerage | – | ₹3.5 | – | – | 
+ Their F&O traders who are net losers | 84% | – | 
+ Why did the 33 lapsed users stop?
+ Their final two weeks vs high-value users on the same dates
+ Measure (25 lapsed F&O traders) | Lapsed users, final 2 weeksi | High-value users, same datesi | Could the gap be chance?i | 
+ Trades per trading day | 6.7 | 3.4 | Unlikely | 
+ Average losing streak (trades) | 2.6 | 1.8 | Unlikely, but about half comes from simply trading more² | 
+ Win rate | 45% | 53% | Possibly | 
+ Average P&L per trade | −₹163 | −₹82 | Likely | 
+ They traded more per day and lost slightly more often: heavy traders, but not outliers (70th–77th percentile of traders on the same dates). They were not blocked: none of the 33 placed any order at all in month 3, and margin rejections didn't rise. Why they stopped isn't visible in this data, which has no balance or withdrawal records. We don't claim "ran out of money" or "losing streak".
+ Demographics: no strong signature
+ Among onboarded users: median age 30 vs 26; income ≥ ₹5L 24% vs 19%; city tier and channel about the same.
+ Already in the KYC registry is the one useful flag: 62% of high-value users vs 41% of onboarded users. Among onboarded users, 3.7% of registry-verified users become high value vs 1.6% of others (2.3×).
+ The 2–3 differences strong enough to act on
+ They trade often and steadily: the typical high-value user places about 170 revenue orders on 26 trading days in 90 days (average 290 on 28), at ≈ ₹20 per order. Track trading days, not sign-ups or deposits.
+ They use more products, including margin: 2.0 products; 13% use MTF vs 3%. Cross-selling stocks and MTF to active traders fits how they already behave.
+ Their intensity is the risk sign: in their final weeks, lapsed top earners traded about twice as many times a day as high-value users on the same dates. Watch for trading falling well below a user's own recent peak (signal still to be validated).
+ Retention focus
+ Main effort: high-value users showing early signs of slipping. They bring about ₹1.8L a month in total. About 1 in 5 (22%) stop earning in the month after day 90; they hold about 18% of the group's revenue, roughly ₹32k a month. Because those who stay trade a bit more, the group's revenue falls about 12% net (≈ ₹20k a month).
+ Lapsed top earners: low-cost automated win-back (reminders, offers), not personal attention.
+ What retention should offer: better tools, education and risk controls, not prompts to trade more. There is no campaign data yet, so priority follows revenue size and natural return rates.
+ Guardrail for F&O-heavy high-value users: risk tools and education only; no trading nudges, offers or rewards. Most of them lose money on F&O.
+ Window: days 0–89 after signup. "Other users who earned anything" = some 90-day revenue but not in the top 1%. ² Users who trade more have longer runs by chance; adjusted for trade count the streak gap could be chance (p = 0.076). Test details: paired Wilcoxon tests over 25 windows with Holm correction for 4 tests; p = 0.006 (trades per day), <0.001 (streak), 0.039 (win rate), 0.49 (P&L). Win-rate gap depends on the comparison group: against all other F&O traders on the same dates it is 45% vs 46–50%, not significant. P&L is gross, before charges. ³ Days with a revenue order in F&O, stocks or commodities. ⁴ Any time from day 90 to 31 Oct, so windows differ by signup date; page 2's days 90–120 column is the like-for-like version.
+=====SECTION
+ Question 2 Cover · not counted
+ Q2
+ The watchlist
+ Every week, the team can give personal attention to about 20 newly signed-up users. They only have each user's first 7 days after signup to choose them, and a user's value can change over time. Which 20 users should they pick each week so that the most of them turn out to be high value (as defined in Q1) by day 90 after signup?
+=====SECTION
+ Q2 The watchlist · The scorecardPage 5 / 10
+ A 10-signal points card, built from what high-value users look like in their first week
+ Only information available by day 7 is used: orders in the first 7 days, account setup steps completed within 7 days, the KYC registry flag, signup platform and channel. Later information (current KYC status, first-investment product) is excluded so nothing leaks from the future.
+ ≈707new signups a week to choose from (18 test weeks, Mon–Sun; first week partial)
+ 5.2future high-value users in an average week (range 2–10)
+ ≈26%best possible hit rate: even a perfect list of 20 has only ~5 hits
+ 0.74%chance that a random signup becomes high value
+ Week-1 signal (yes / no)i | Signups with iti | Share of future high-value users with iti | Share of everyone else with iti | Chance of becoming high value: with it / without iti | Pointsi | 
+ Stock account set up | 3,300 | 94% | 25.4% | 2.7% / 0.06% | +5 | 
+ Earned Groww ₹200+ | 55 | 24% | 0.3% | 42% / 0.6% | +3 | 
+ Earned Groww ₹50–200 | 90 | 21% | 0.6% | 22% / 0.6% | +2 | 
+ Traded F&O | 81 | 30% | 0.4% | 35% / 0.5% | +2 | 
+ Traded on 2 or more days (any product) | 335 | 50% | 2.3% | 14% / 0.4% | +2 | 
+ Earned revenue on days 3–6 (kept going) | 550 | 56% | 3.9% | 9.6% / 0.3% | +2 | 
+ Already in the KYC registry | 2,927 | 62% | 22.7% | 2.0% / 0.4% | +2 | 
+ Earned only ₹1–50 | 830 | 16% | 6.4% | 1.8% / 0.7% | −1 | 
+ Used 2 or more products | 95 | 15% | 0.6% | 14.7% / 0.6% | 0 | 
+ Used intraday or margin | 181 | 15% | 1.3% | 7.7% / 0.6% | 0 | 
+ How the points were set: reverse-engineered from high-value users
+ Turned what Q1 showed about high-value users into 10 yes/no signals visible in week 1.
+ Checked each signal alone (table above). Every one separates high-value users from the rest on its own.
+ Weighed them together in one statistical model, so overlapping signals aren't counted twice. That is why "2+ products" and "intraday" end at 0: other signals already cover them.
+ Points = model weight × 2, rounded, so each point raises the odds by about 1.65×. The rounded points put users in almost exactly the same order as the full model.
+ Tested week by week: each week was scored with points learned from the other weeks. Points move by at most ±1 between refits; "stock account set up" is +5 every time. One set is frozen for use and refitted monthly.
+ Score bands (maximum score 16)
+ Score on day 7i | Signups per weeki | Share who become high valuei | Use | 
+ 13 or more | ~4–5 | ~32% | Always pick. About 1 in 3 also become lapsed top earners, so flag them for retention early | 
+ 10–12 | ~5 | ~20% | Pick | 
+ 9 or less | ~10 to fill 20 | ~3% | Fill the remaining slots by score, then by week-1 revenue | 
+ Weekly routine
+ On day 7 after each signup week closes, score every user in that week.
+ Take the top 20 by score; break ties by higher week-1 revenue. The 20th pick usually scores 8 (range 7–9).
+ Give the top 10 the most attention: that is where nearly all hits are (next page, shown for the revenue-ranked list).
+ Pass the 13+ scorers to retention as well: they include most future lapsers.
+ Measure whether attention works: each week, leave a random half of slots 11–20 without personal attention and compare how many become high value by day 90.
+ Shares in the bands table come from week-by-week testing (technical name: leave-one-week-out). The model is a logistic regression (C = 1); rounded and raw scores rank users with a correlation of 0.9998. "Chance with / without" = share of users with / without the signal who became high value by day 90. The ₹1–50 signal carries little information; its −1 only partly offsets the activity points such users collect, so the card slightly over-rates small-ticket multi-day traders (predicted ~7%, actual ~2%).
+=====SECTION
+ Q2 The watchlist · Results and limitsPage 6 / 10
+ About 3 of every 20 picks become high value: 55% of what a perfect list could catch, and about as good as ranking by week-1 revenue
+ A week has about 5.2 future high-value users, so even a perfect list of 20 would catch only about 5 (26%). The scorecard catches 2.9 a week (14% of picks), 52 of 94 over 18 weeks. Each week was scored with points learned from the other 17 weeks, so results are on users the method had not seen.
+ Method | High-value users caught (of 94)i | Lapsed top earners pickedi | Share of all 90-day revenue held by picksi | Forward-only test: caught of 30i | 
+ A. Top 20 by week-1 revenue | 50 (53%) | 25 | 57% | 13 | 
+ B. Points scorecard (chosen) | 52 (55%) | 23 | 59% | 11 | 
+ C1. Statistical model using all signals | 45 (48%) | 24 | 58% | 6 | 
+ C2. Machine-learning model | 48 (51%) | 24 | 59% | 5 | 
+ Random 20 a week | ≈ 3 | – | – | – | 
+ Why the scorecard over the models
+ With only ~5 high-value users a week, complex models learn noise: both models do worse than the simple rules, especially in the forward-only test.
+ The scorecard and "top 20 by revenue" are within noise of each other (B is 52–54 depending on ties, A 49–51). The scorecard wins on being explainable: the team can see why a user was picked and act on it.
+ The realistic number is the forward-only test. Week-by-week testing lets later weeks help set the points, which slightly flatters every method. Learning only from weeks whose 90 days had ended, the scorecard caught 11 of 30 (37%) in the last 5 weeks. So refit the points every month.
+ High-value users caught each week by the scorecard (52 in 18 weeks)
+ Future high-value users that week (the most a list could catch)Caught by the scorecard
+ On average 2.9 caught of 5.2 possible a week (random picks: 0.15).
+ Are the top-ranked picks the ones that pay off?
+ Each week's 20 picks ranked by week-1 revenue (rank 1 = highest), totals over 18 weeks
+ Rank in the weekly listi | Share that became high valuei | High-value users caughti | Share of all 90-day revenuei | 
+ Ranks 1–5 | 
+34% | 31 | 40.8% | 
+ Ranks 6–10 | 
+17% | 15 | 12.1% | 
+ Ranks 11–15 | 
+3.3% | 3 | 3.5% | 
+ Ranks 16–20 | 
+1.1% | 1 | 0.8% | 
+ 46 of 50 hits sit in the top 10. Recommendation: use slots 11–20 as the test bed: give personal attention to a random half and compare how many become high value, to measure whether attention changes anything.
+ Where the 360 picks (18 weeks × 20) end up by day 90
+ Revenue groupi | 90-day revenue rangei | Signups in groupi | Pickedi | Of which high value / lapsedi | Share of all picksi | Share of the group pickedi | 
+ Top → 50% of revenue | ₹9,260–40,880 | 23 | 14 | 9 / 5 | 4% | 61% | 
+ 50–75% | ₹3,296–9,110 | 33 | 23 | 16 / 7 | 6% | 70% | 
+ 75–80% | ₹2,540–3,252 | 14 | 7 | 6 / 1 | 2% | 50% | 
+ 80–90% (rest of top 1%) | ₹734–2,501 | 57 | 31 | 21 / 10 | 9% | 54% | 
+ 90–95% (near miss) | ₹194–725 | 101 | 54 | – | 15% | 53% | 
+ 95–99% | ₹22–192 | 500 | 137 | – | 38% | 27% | 
+ 99–100% | ₹0.3–22 | 945 | 87 | – | 24% | 9% | 
+ No revenue | ₹0 | 11,061 | 7 | – | 2% | <0.1% | 
+ Of every 20 picks, about 3 become high value, about 1 more is a top earner who has stopped trading by month 3, and about 3 just miss the bar (₹194–725 in 90 days, just below the top 1%). Picks hold 58.6% of all 90-day revenue: ₹1,247 per pick vs ₹60 per average user (≈21×).
+ Limitations of a list built on the first 7 days
+ Silent starters: 36 of 94 high-value users earned nothing in week 1 (33 placed no order). They are too rare to pick (0.31% base rate); no zero-revenue user scores above 7.
+ Late starters: 7 of 94 only began trading after day 60.
+ Future lapsers look the same at day 7: lists pick 23–25 of the 33 lapsed top earners.
+ Example week · 6–12 July (823 signups, 6 future HV)
+ 2 hits. Slot 1 (score 14; ₹600 in week 1, 30 F&O trades) earned ₹9,420 by day 90. Slot 7 (score 10; ₹315) earned ₹1,227. Slot 3 (score 14) became a lapsed top earner. Slots 11–20 scored 8–9 with ₹2–25 in week 1.
+ Hits = picked users who meet the Q1 definition by day 90. Random baseline: 20 × 0.74% ≈ 0.15 hits a week (≈ 3 over 18 weeks). Forward-only test: points learned only from users whose 90 days had already ended, tested on the last 5 weeks (30 HV). Technical names: leave-one-week-out cross-validation; logistic regression; gradient boosting.
+=====SECTION
+ Question 3 Cover · not counted
+ Q3
+ Where should the next marketing rupee go?
+ Marketing wants to move budget towards the acquisition channels that bring the most valuable users. Which channels should get more budget, and which should get less?
+=====SECTION
+ Q3 Marketing channels · Value per signupPage 7 / 10
+ Value per signup ranges from ₹10 to ₹384 by channel, but one or two users drive most channel averages
+ For each channel: the revenue its signups brought in their first 90 days, divided by its number of signups (12,734 users with a full 90 days). Because a single heavy trader can make a small channel look great, each row also shows the value with its top user removed.
+ Across all channels: ₹60 per signup in the first 90 days; 0.74% of signups become high value.
+ | Value per signup, first 90 daysi | Do its users trade? | | 
+Channel | Signupsi | ₹ per signupall signups (value at bar end)without the top user (value below dot)
+ | Top user's sharei | High-value usersi | Share earning anythingi | Budget calli | 
+ How channels were grouped
+ The raw field mixes channel groups with partner IDs (33 channels, 103 sub-channels). Partners were checked online and grouped: OfferDeck is a Vserv product; Moloco, DV360, Jampp and Mobavenue are programmatic ad buyers; NDTV Convergence is NDTV's digital arm; Appnext and similar are pay-per-install networks (four small ones could not be verified and were grouped by campaign naming). Publishers are kept separate.
+ How sure are we?
+ Likely ranges by re-running the numbers on thousands of random re-samples of users; outlier checks removing the top 1–3 users.
+ A second check on all 20,000 signups using 30-day revenue gives broadly the same order: Apple Search Ads ₹127, Referral ₹83, publishers ₹31, Organic ₹23, Google ₹21, app-install networks ₹12, NDTV ₹8.
+ What this can't tell us
+ There is no spend or cost-per-signup data. Each figure is the most a channel can pay per signup and still break even on gross 90-day revenue, before any costs. It ranks value, not return on spend.
+ Revenue: all products, days 0–89 after signup. "% earning anything" = share of the channel's signups with any revenue in 90 days. Organic is not a paid channel and is the comparison base. Apple Search Ads "without top 2" = ₹155; Referral "without top 3" = ₹26. Channels were also checked by signup month: Apple Search Ads' value sits almost entirely in June–July signups (page 8). 89 of its 141 signups came through Groww-brand keyword searches, so some may have joined anyway.
+=====SECTION
+ Q3 Marketing channels · Where the budget movesPage 8 / 10
+ Grow Apple Search Ads in capped steps and HT, Zee and Referral gradually; cut channels whose users trade small and rarely become high value
+ Budget rule: shift money into a channel only while it costs less per signup than it earns in 90 days, and scale in steps so each step can be measured. The figures below are what each channel can afford to pay.
+ Why every channel is compared with Organic: Organic signups come to Groww with no marketing spend, so they show what Groww gets if it does nothing. A paid channel earns its budget only by beating that baseline: more users who start trading, more revenue per signup, more high-value users. Organic is also the largest group (4,760 signups), so its numbers are stable, and people who find Groww on their own are likely already motivated, which makes it a demanding bar to beat.
+ More, capped stepsApple Search Ads
+Highest value per signup, but it came from June–July signups. Raise in capped monthly steps and re-check each month.
+ More, graduallyHT · Zee · Referral
+More of their users start trading. The revenue gain isn't proven yet, so grow and measure.
+ HoldGoogle Ads main campaign
+₹60 per signup across 3,642 users and 30 of Google's 31 high-value users.
+ UnclearWhale-driven channels
+News Nation, Vserv, programmatic and others: averages fall apart without 1–2 users. At most a capped test.
+ LessNDTV · Times Internet · app-install networks
+₹0–21 per signup and almost no high-value users; also Google's small campaigns.
+ Apple Search Ads vs Organic: why "more", and why "capped"
+ Measure | Apple Search Ads | Organic | Is the gap real? | 
+ Why more | 
+ 90-day revenue per signup | ₹384 | ₹52 | Gap +₹332; likely range +₹60 to +₹670† | 
+ Share becoming high value | 4.26% | 0.65% | Clear difference | 
+ Share earning anything (Apr–Sep signups) | 23% | 10% | Clear; higher in every signup month | 
+ Median revenue per earning user | ₹46 | ₹18.6 | Clear difference | 
+ Just an iOS effect? | No: other iOS channels ₹14–18 | – | 
+ Why cappedInvest in capped monthly steps and track each step's return closely (revenue per signup against what the signups cost), because of these risks: | 
+ Share of 90-day revenue from Jun–Jul signups | 98% | – | All 6 high-value users too | 
+ 30-day ₹ per signup in the other months | ₹5.8 | ₹23.5 | Below Organic outside Jun–Jul | 
+ Share of 90-day revenue from F&O | 93% | 68%* | Adds to Q4's F&O risk | 
+ † How the range is found: we re-drew the 141 Apple Search Ads users and the 4,760 Organic users at random (with replacement) 10,000 times, and each time worked out ASA ₹ per signup minus Organic ₹ per signup. The middle 90% of those 10,000 gaps runs from +₹60 to +₹670 (a 90% bootstrap interval). It is wide because a few ASA users carry most of its revenue, but it stays above zero.
+* 68% = all users. 89 of the 141 signups came through Groww-brand keyword searches, so some may have joined anyway.
+ Why HT and Zee (and Referral) get more budget, gradually
+ More of their users start trading than Organic, but the revenue gain isn't proven yet at this size.
+ Measure | HT | Zee | Organic | 
+ Share of signups who earn anything | 17% | 17% | 11% | 
+ Revenue per signup, top 1% trimmed | ₹10.6 | ₹9.0 | ₹4.6 | 
+ Share becoming high value | 1.16% | 1.18% | 0.65% | 
+ The trading gap is clear and revenue is about 2× Organic after trimming outliers; the high-value gap could still be chance at this size. Referral: 44% of its 61 signups earn vs 11%, but its revenue rests on 3 users.
+ Google Ads: one campaign carries it
+ Google campaign | Signups | ₹ per signup | High-value users | 
+ Main Android campaign | 3,642 | ₹60 | 30 | 
+ 10 other campaigns (incl. F&O-targeted: ₹6, 0 HV) | 608 | ₹0–19 | 1 | 
+ Why "unclear" isn't "more"
+ News Nation shows ₹131 per signup, but one user is 81% of it; without its top 2 users it earns ₹3.5. Programmatic shows ₹77, but ₹23 without its top user. These averages come from one lucky signup, not a channel that reliably brings traders.
+ Test details vs Organic: ASA high-value share p < 0.001 (Fisher), median earner p = 0.013; HT/Zee share earning p < 0.001, high-value share p = 0.17 / 0.29. Likely range = 90% bootstrap interval. Main Android campaign = uac_android_v3_all_fid_troas. All revenue is gross brokerage in the first 90 days; it is the ceiling on what a channel can cost per signup, not a measure of profit.
+=====SECTION
+ Question 4 Cover · not counted
+ Q4
+ Revenue concentration and the next bet
+ How concentrated is Groww's revenue in certain pockets, and what should be the next bet if that source shrank significantly?
+=====SECTION
+ Q4 Concentration · How exposed are wePage 9 / 10
+ About 84% of revenue rests on one group, retail F&O traders, and a 30% F&O drop would cost 21–25% of revenue
+ All revenue from April to October 2026 (₹14.63L from 3,107 users), looked at three ways: by product, by user, and by the group of users behind each product.
+ 1 · By product: share of ₹14.63L
+ F&O 70.7%
+ Stocks 20.4%
+ 7.4%
+ F&O ₹10.35LStocks ₹2.98LCommodities ₹1.09LMutual funds + IPO ₹21kF&O's share by month: 55–75%
+ 2 · By user
+ Top users | Share of all revenuei | 
+ Top 10 | 
+24.9% | 
+ Top 50 | 
+60.1% | 
+ Top 100 | 
+77.4% | 
+ Top 200 | 
+90.0% | 
+ Of 3,107 users with any revenue. Inside F&O (281 users), the top 10 bring 33% and the top 30 bring 57%.
+ 3 · By the group behind each product
+ Revenue that comes from F&O tradersi | Share | 
+ F&O | 100% | 
+ Commodities | 94.6% | 
+ Margin trading (MTF) | 55.2% | 
+ All stocks | 32.6% | 
+ All revenue | ≈ 84% | 
+ Commodities look like a second business, but 78 of its 87 users are F&O traders.
+ Why this group is fragile
+ Inside F&O: 92.9% is index options (NIFTY 64%, SENSEX 26%); 35.7% of orders are placed on expiry day.
+ They lose money: 79% of all F&O traders in this data with recorded P&L are net losers (211 of 267); together they lost about ₹3.7 per ₹1 of brokerage (Apr–Oct, gross).
+ Rules keep tightening: unique individual F&O traders fell from 61.4 lakh to 42.7 lakh between Q1 and Q4 FY25, as stricter SEBI rules came in; 87.7% of individual traders still lost money in FY26.
+ Stress test: F&O revenue falls 30%
+ How the drop happens | Revenue lost (Apr–Oct)i | Share of all revenue losti | 
+ Everyone trades F&O 30% less (30% of ₹10.35L) | ₹3.10L | 
+−21% | 
+ The top 9 F&O traders (30.6% of F&O) stop F&O only and keep trading other products (they bring ₹15k there) | ₹3.17L | 
+−22% | 
+ Traders spread across the base leave and take 30% of their other revenue too | ₹3.71L | 
+−25% | 
+ Why 30% is a realistic case
+ SEBI's October 2024 measures (larger contract sizes, one weekly expiry per exchange, higher expiry-day margins, intraday position checks) came in during FY25, when unique traders per quarter fell about 30% from Q1 to Q4. In this data, 88 of the 94 high-value users would stay above the high-value bar, but their revenue would fall 22%. The 92 traders who place at least half their F&O orders on expiry day (20.9% of F&O revenue) are the most exposed to further expiry rules.
+ What not to bet on, and why
+Products that look like alternatives to F&O but are not
+ What not to bet on
+ Not the next bet | Why not | 
+ Commodities | 94.6% of its revenue comes from F&O traders; it falls with F&O instead of protecting against it | 
+ MTF on its own | ₹53k; the top 5 users bring 65% (typical user ₹4.80), and 55% comes from F&O traders | 
+ Activation | 3,187 onboarded users never earned anything; 10% activating adds only ₹6–53k | 
+ IPO-only users into trading | 474 users; 10% converting adds ₹1–6k | 
+ Mutual funds | ₹13.6 per user here; no asset or trail-income data | 
+ Why commodities are not the answer: what the 82 F&O stoppers did, 60 days before vs 60 days after their last F&O trade
+ Revenue from | 60 days beforei | 60 days afteri | Changei | 
+ Stocks | ₹7,160 (31 users) | ₹1,671 (8 users) | 
+−77% | 
+ Commodities | ₹12,100 (17 users) | ₹400 (3 users) | 
+−97% | 
+ Commodities end with F&O: of 18 stoppers who ever traded commodities, 11 made their last commodity trade within a week of their last F&O trade.
+ Commodities only look better: they earn ₹154 per active day vs ₹101 for intraday stocks, because only the heaviest F&O traders use them (median 171 F&O orders vs 24). 61% of commodity trading days are also F&O days, vs 20% for stocks.
+ The wider market: MCX options volumes rose 4.3× year on year in August 2026, while SEBI is prioritising cash equities. For Groww, commodities are the same options-buying risk on another exchange; stocks are the safer home.
+ Revenue Apr–Oct 2026, all users. P&L is gross (before charges), recorded on F&O entry orders. "≈ 84%" = F&O revenue plus the commodity and stock revenue of F&O traders.
+ Sources: SEBI study, Jul 2025, via Outlook Money (61.4 lakh to 42.7 lakh unique traders) · SEBI study, Aug 2026, via Business Today (87.7% loss-makers in FY26) · SEBI circular of 1 Oct 2024 on equity index derivatives · Bernstein via 5paisa, Sep 2026 (MCX options volumes 4.3×) · Reuters via Business Recorder (SEBI prioritising cash equities).
+ Stoppers: users with 5+ executed F&O orders and no executed F&O order in the last 60+ days to 31 Oct 2026. Windows are 60 days either side of each user's last F&O date. ₹ per active day = revenue ÷ user-days with a revenue order in that product, among F&O traders.
+=====SECTION
+ Q4 Concentration · The next betPage 10 / 10
+ No single product fills a ₹3.1L gap. The next bet is stock trading, built two ways.
+ Part A widens the base so less revenue depends on F&O traders. Part B keeps F&O traders' revenue when rules push them out of F&O.
+ Part A · Grow stock trading among users who don't trade F&O
+ ₹2.0Lstock brokerage (Apr–Oct) from 1,701 users who never traded F&O: the only sizeable revenue not tied to F&O traders
+ 26%of that ₹2.0L comes from its top 10 users (vs 33% for the top 10 in F&O), so it doesn't hinge on a few traders
+ ₹20earned from the typical (median) user over Apr–Oct, vs ₹118 on average: most trade very little, so there is room to grow
+ Goal: get more of these users trading like the 70 who already earn Groww ₹500+.
+ Realistic case: if the 170 users closest to ₹500 reach it, revenue rises by about ₹9–49k (3–16% of the ₹3.1L gap).
+ Upside case: if those 170 traded like today's ₹500+ users, about ₹1.8L (58% of the gap). So Part A alone cannot fill the gap.
+ MTF as the upsell: offer margin trading to heavy delivery traders; only 3.9% use it today, and its interest income isn't counted here.
+ Part B · Move F&O traders into stocks before they stop F&O
+ 16of 82users who stopped F&O earned Groww anything afterwards
+ 135F&O traders who have never traded stocks: the first target
+ 92expiry-day-heavy traders, most exposed to new rules
+ Left alone, they go quiet rather than switch: ₹1.49L of F&O revenue in their last 60 days; ₹2.1k from stocks and commodities in the 60 days after (₹2.7k over all remaining days).
+ Run it as a test, not a rollout: each month, take F&O traders whose F&O trading is falling; offer the stock path to a random half and leave the other half alone. Success = more of the offered half earn stock revenue 60 days later (today only 12 of 82 stoppers did, 15%).
+ Offer, in order: delivery stocks and ETFs with risk tools first; intraday and MTF only as an opt-in for experienced traders.
+ Can any one bet fill the ₹3.1L gap?
+ Extra revenue over the same seven months, against the revenue lost if F&O shrinks 30%
+ The gap (F&O −30%)
+₹3.10L
+ Part A, upside case
+₹1.79L
+ Part A, realistic case
+₹9–49k
+ Activation: 10% of never-earning onboarded users
+₹6–53k
+ IPO-only users into trading (10%)
+₹1–6k
+ No single bet comes close, so the plan combines Part A and Part B.
+ What to track every month
+ Signal | Today | What a change would mean | 
+ F&O share of revenue | 55–75% a month | Above 75%: more exposed. A sudden drop: rules biting | 
+ Share of F&O orders placed on expiry day | 35.7% | A sharp fall after a new expiry rule: revenue at risk | 
+ F&O traders who also trade stocks | 146 of 281 | Rising: Part B is working | 
+ Stock revenue per non-F&O user | ₹118 (Apr–Oct) | Rising: Part A is working | 
+ Caveats
+ The 82 stoppers quit on their own, not because of a rule, and 85% of them had net F&O losses. Traders forced out by a rule may behave differently, or move to another broker. Treat this as a reference point, not a forecast.
+ Small groups: 82 stoppers; 12 had stock revenue and 4 commodity revenue after stopping.
+ About a third of stock brokerage is filled in with Groww's pricing rule, mostly Sep–Oct (rule matches recorded fees 99.9%).
+ Stoppers (Part B figures): users with 5+ executed F&O orders and no executed F&O order in the last 60+ days to 31 Oct 2026; details on page 9.
+ Source: Groww pricing page (MTF interest 14.95% a year).

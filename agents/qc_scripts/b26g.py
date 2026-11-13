@@ -1,0 +1,36 @@
+import sys; sys.path.insert(0,'agents/qc_scripts')
+from d90 import *
+import pickle
+D=d90(); globals().update(D)
+G=pickle.load(open('agents/qc_scripts/groups.pkl','rb')); HV=G['HV']
+Rp=R[R.rev>0]; T=Rp.rev.sum()
+mo=Rp.assign(mo=Rp.t.dt.to_period('M')).groupby(['mo','inst']).rev.sum().unstack()
+print('F&O share by month',(mo.fno/mo.sum(axis=1)*100).round(1).to_dict())
+pu=Rp.groupby('id').rev.sum().sort_values(ascending=False)
+print('top10/50/100/200',[round(pu.iloc[:k].sum()/T*100,1) for k in [10,50,100,200]],'n',len(pu))
+fe=f[f.order_status.eq('EXECUTED')].copy()
+fu=fe.groupby('third_party_id').brokerage_inr.sum().sort_values(ascending=False); FT=fu.sum()
+print('F&O top10/30',round(fu.iloc[:10].sum()/FT*100,1),round(fu.iloc[:30].sum()/FT*100,1),'top9',round(fu.iloc[:9].sum()/FT*100,1))
+print('index options share',round(fe[fe.contracts_instrument_type=='OPTIDX'].brokerage_inr.sum()/FT*100,1),(fe.groupby('contracts_underlying').brokerage_inr.sum()/FT*100).round(1).sort_values(ascending=False).head(4).to_dict())
+fno=set(fu.index)
+byid=Rp[Rp.id.isin(fno)].groupby('inst').rev.sum()
+print('F&O-trader pocket',round((byid.get('fno',0)+byid.get('commodity',0)+byid.get('stocks',0))/T*100,2),'incl all',round(byid.sum()/T*100,2))
+cu=set(Rp[Rp.inst=='commodity'].id); print('commodity users',len(cu),'of which F&O',len(cu&fno))
+fe['pnl']=pd.to_numeric(fe.pnl,errors='coerce')
+pp=fe.groupby('third_party_id').agg(p=('pnl','sum'),n=('pnl','count'),b=('brokerage_inr','sum'))
+k=pp[pp.n>0]; print('F&O w/ pnl',len(k),'net losers',(k.p<0).sum(),round((k.p<0).mean()*100,1),'gross loss',round(-k.p.sum()),'per ₹1 (all F&O brokerage)',round(-k.p.sum()/FT,2),'per ₹1 (pnl users brokerage)',round(-k.p.sum()/k.b.sum(),2),'median per user',round((-k.p/k.b).median(),2))
+# stress
+top9=list(fu.index[:9]); oth9=Rp[Rp.id.isin(top9)&(Rp.inst!='fno')].rev.sum()
+print('top9 F&O',fu.iloc[:9].sum(),'their other',round(oth9),'loss',round(fu.iloc[:9].sum()+oth9),round((fu.iloc[:9].sum()+oth9)/T*100,1))
+print('30% everyone',0.3*FT,round(0.3*FT/T*100,1),'spread',round(0.3*Rp[Rp.id.isin(fno)].rev.sum()),round(0.3*Rp[Rp.id.isin(fno)].rev.sum()/T*100,1))
+# HV under 30% F&O drop (90-day)
+g=W[W.id.isin(HV)].copy(); g['adj']=np.where(g.inst=='fno',0.7*g.rev,g.rev)
+a=g.groupby('id').adj.sum(); print('HV still >= 733.8',(a>=733.8).sum(),'HV rev fall',round((1-a.sum()/g.rev.sum())*100,1))
+# activation / IPO-only (Apr-Oct, all users)
+uu=u.set_index('third_party_id'); onb=set(uu.index[uu.stock_onboarding_ts.notna()]); earn=set(pu.index)
+print('onboarded never earned',len(onb-earn),'onboarded total',len(onb))
+inst_by=Rp.groupby('id').inst.agg(set); ipo_only=[x for x,v in inst_by.items() if v=={'ipo'}]
+print('IPO-only users',len(ipo_only),'IPO users',Rp[Rp.inst=='ipo'].id.nunique())
+# stoppers check of "₹2.7k afterwards"
+print('MF per user',12416/910)
+print('signups by channel sum check skipped')

@@ -1,0 +1,20 @@
+import sys; sys.path.insert(0,'agents/qc_scripts')
+from qc_base import *
+u,s,f,m,i,c,R=build()
+print('total',R.rev.sum(), 'users>0', (R.groupby('id').rev.sum()>0).sum())
+g=R.groupby('inst').agg(rev=('rev','sum'))
+g['users']=R[R.rev>0].groupby('inst').id.nunique()
+g['share']=g.rev/g.rev.sum()*100
+print(g.sort_values('rev',ascending=False))
+print('stocks recorded-only',s.rev_recorded.sum(),'blank succ',s.blank.sum(), 'imputed sum', s.loc[s.blank,'rev'].sum())
+print('succ orders',s.order_status.eq('SUCCESS').sum())
+# sanity checks
+print('fno brokerage values exec',f[f.order_status.eq('EXECUTED')].brokerage_inr.value_counts().to_dict(),'nonexec nonzero',(pd.to_numeric(f[~f.order_status.eq('EXECUTED')].brokerage_inr,errors='coerce').fillna(0)>0).sum())
+print('comm',c[c.order_status.eq('EXECUTED')].brokerage_inr.value_counts().to_dict(),(pd.to_numeric(c[~c.order_status.eq('EXECUTED')].brokerage_inr,errors='coerce').fillna(0)>0).sum())
+print('mf',m[m.order_status.eq('COMPLETED')].brokerage_inr.value_counts().to_dict(),(pd.to_numeric(m[~m.order_status.eq('COMPLETED')].brokerage_inr,errors='coerce').fillna(0)>0).sum())
+print('ipo',i.brokerage_inr.value_counts(dropna=False).to_dict())
+print('stock nonsucc with ob>0',((~s.order_status.eq('SUCCESS'))&(pd.to_numeric(s.original_brokerage,errors='coerce')>0)).sum())
+print('blank by product',s[s.blank]['product'].value_counts().to_dict())
+print('recorded 0 count',(s.order_status.eq('SUCCESS')&(pd.to_numeric(s.original_brokerage,errors='coerce')==0)).sum())
+print('date range',R.t.min(),R.t.max(),'NaT',R.t.isna().sum())
+print('rev ids not in users',(~R.id.isin(u.third_party_id)).sum(), 'dup users',u.third_party_id.duplicated().sum())
